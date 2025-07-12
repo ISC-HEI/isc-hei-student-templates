@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -eu
 
 echo "Removing tmp/isc-hei-bthesis if it exists..."
@@ -17,8 +17,10 @@ else
 fi
 
 cd tmp
-typst init @preview/isc-hei-bthesis:0.5.2
+typst init @preview/isc-hei-bthesis:0.5.3
 cd isc-hei-bthesis
+echo "Compiling bachelor thesis..."
 typst compile bachelor_thesis.typ
+echo "Compiling done"
 cd ..
 cd ..

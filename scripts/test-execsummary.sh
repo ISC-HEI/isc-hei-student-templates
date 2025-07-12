@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -eu
 
 echo "Removing tmp/isc-hei-exec-summary if it exists..."

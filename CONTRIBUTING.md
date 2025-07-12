@@ -37,7 +37,6 @@ typst watch bachelor_thesis.typ
 
 for instance.
 
-
 ## Testing local deployment
 When sufficiently confident that it seems to work, it's time to test a `preview` version as created by `typst`.
 

@@ -1,17 +1,18 @@
-#import "@preview/isc-hei-bthesis:0.5.2" : *
+#import "@preview/isc-hei-bthesis:0.5.3" : *
 
 #let doc_language = "en" // Valid values are en, fr
 
 #show: project.with( 
-  title: "Life, the Universe and Everything", 
-  sub-title: "A Bachelor Thesis in Data Engineering", // Optional
+  title: "Life, the Universe, and Everything", // Your thesis title
   authors: "James Gosling", 
   language: doc_language, // must be defined globally, see above
   
   thesis-supervisor: "Prof. Dr John von Neumann", 
   thesis-co-supervisor: "Lady Ada Lovelace", // Optional, use none if not needed
   thesis-expert: "Dr Grace Hopper", // Optional, use none if not needed
-  
+  thesis-id: "ISC-ID-2501", // Your thesis ID (from the official project description) or none if not used
+  project-repos: "https://isc.hevs.ch", // Your project repository
+
   school: "Haute École d'Ingénierie de Sion", 
   programme: "Informatique et Systèmes de communication (ISC)",
 

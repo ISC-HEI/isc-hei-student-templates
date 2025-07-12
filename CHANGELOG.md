@@ -10,6 +10,13 @@
 - nothing special
 
 ---
+# [v0.5.3](https://github.com/ISC-HEI/isc-hei-report/releases/tag/0.5.3)
+- Official repository field and official ID of the thesis added
+- Title page of bachelor thesis now shows the official thesis ID
+- The abstract / résumé display the keywords as well as the official repos, with a function a no clutter
+- Minor tweaks to the first and second page of the bachelor thesis
+- Corrected typos in README.MD
+
 # [v0.5.2](https://github.com/ISC-HEI/isc-hei-report/releases/tag/0.5.2)
 - Executive summary template added
 - Title page 2 for `b-thesis` has now correct colons for `fr` and `en`, corrected typo in `fr` (thanks M. Ribeiro)

@@ -10,3 +10,4 @@
 #let global-language = state("ln", "en")
 #let global-keywords = state("kw", ())
 #let header-footers-enabled = state("hf-en", false)
+#let global-project-repos = state("repos", none)

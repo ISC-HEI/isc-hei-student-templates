@@ -8,13 +8,13 @@
   expert: none,
   font: "",
   title: "",
-  sub-title: "",
   semester: "",
   academic-year: "",
   school: "",
   programme: "",
   major: "",
   authors: "",
+  thesis-id: "",
   submission-date: "",
   logo: none,
   language: "",
@@ -32,16 +32,18 @@
     // Type
     let thesis-title = i18n("bachelor-thesis-title"),
     upper(text(thesis-title, size: 14pt, weight: "bold")),
-    v(2mm),
+    v(4mm),
     // Author
     text(authors, size: 14pt),
     v(25mm),
     // Title
-    par(leading: 11pt, text(title, size: 28pt, weight: 620)),
+    par(leading: 11pt, text(title, size: 24pt, weight: 660)),
     v(5mm),
     line(start: (0pt, 0pt), length: 2.5cm, stroke: .7mm),
     v(5mm),
     text(programme, size: 14pt),
+    v(3mm),
+    text(thesis-id, size: 10pt)
   ))
 
   // University name text
@@ -104,10 +106,12 @@
     },
 
     if submission-date != none {
-      stack(v(6mm), line(start: (0pt, 0pt), length: 25pt, stroke: 1mm), v(6mm), text(
-      i18n("submitted-on") + colon + inc.custom-date-format(submission-date, i18n("date-format"), language),
-      size: 10pt,
-      ))
+      stack(
+        v(6mm),
+        line(start: (0pt, 0pt), length: 25pt, stroke: 1mm),
+        v(6mm),
+        text(i18n("submitted-on") + colon + inc.custom-date-format(submission-date, i18n("date-format"), language), size: 10pt),
+      )
     },
   )
   

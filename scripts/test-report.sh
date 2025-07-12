@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -eu
 
 echo "Removing tmp/isc-hei-report if it exists..."

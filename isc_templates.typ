@@ -170,6 +170,19 @@
   }
 }
 
+
+#let abstract-footer(lang) = {
+
+  let colon = context if lang == "fr" { " : " } else { ": " }
+
+  [
+  #v(1fr)
+  #context {text(i18n(lang, "keywords"), weight: "bold") + colon + inc.global-keywords.get().join(", ")}
+  #v(-1mm)
+  #context {text(i18n(lang, "repository"), weight: "bold") + colon + raw(inc.global-project-repos.get())}
+  ]
+}
+
 //////////////////////////
 // Source code inclusion
 //////////////////////////
@@ -200,6 +213,8 @@
   thesis-supervisor: [Thesis supervisor],
   thesis-co-supervisor: none,
   thesis-expert: "[Thesis expert]",
+  thesis-id: none,
+  project-repos: none,
   keywords: (),
   major: (),
   school: [School name],
@@ -237,6 +252,10 @@
   // Update state with the passed values so they are accessible globally
   inc.global-keywords.update(keywords)
   inc.global-language.update(language)
+
+  if(project-repos != none) {
+    inc.global-project-repos.update(project-repos)
+  }
 
   let i18n = i18n.with(extra-i18n: extra-i18n, language)
 
@@ -457,13 +476,13 @@
       expert: thesis-expert,
       font: sans-font,
       title: title,
-      sub-title: sub-title,
       semester: semester,
       academic-year: academic-year,
       school: school,
       programme: programme,
       major: major,      
       authors: authors-str,
+      thesis-id: thesis-id,
       submission-date: date,
       logo: logo,
       language: language,

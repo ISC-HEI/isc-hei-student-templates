@@ -1,4 +1,4 @@
-#import "@preview/isc-hei-bthesis:0.5.2" : *
+#import "@preview/isc-hei-bthesis:0.5.3" : *
 
 #heavy-title("Résumé")
 
@@ -18,6 +18,4 @@ Veuillez également ajouter l'URL de votre git/github ici si le projet n'est pas
 
 #lorem(150)
 
-#v(1fr)
-
-*Keywords* : #context inc.global-keywords.get().join(", ")
+#abstract-footer("fr")

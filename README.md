@@ -7,21 +7,20 @@
 ![License](https://img.shields.io/badge/license-MIT-brightgreen")
 
 # Document templates for ISC students
-
-This is the official templates for reports, bachelors thesis and project executive summary for the [ISC degree programme](https://isc.hevs.ch/) at the School of engineering in Sion. It is made to help the students focus on content, using `Tyst` as the typesetting software.
-
+These are the official templates for reports, bachelor theses, and project executive summaries for the [ISC degree programme](https://isc.hevs.ch/) at the School of Engineering in Sion. They are designed to help students focus on content by using `Typst` as the typesetting software.
 
 <p align="center">
-  <a href="examples/bachelor_thesis.pdf?raw=true"><img src="bachelor_thesis_thumb.png" alt="Bachelor Thesis" height="300">
-  <a href="examples/exec_summary.pdf?raw=true"><img src="exec_summary.png" alt="Executive Summary" height="300">
-  <a href="examples/report.pdf?raw=true"><img src="report_thumb.png" alt="Report" height="300">
+  <a href="examples/bachelor_thesis.pdf?raw=true"><img src="bachelor_thesis_thumb.png" alt="Bachelor Thesis" height="300"></a>
+  <a href="examples/exec_summary.pdf?raw=true"><img src="exec_summary.png" alt="Executive Summary" height="300"></a>
+  <a href="examples/report.pdf?raw=true"><img src="report_thumb.png" alt="Report" height="300"></a>
 </p>
 
 ## Using the template, on the Web
 
-In the `Typst` web application, start with the `isc-hei-report` and voilà ! 
+In the `Typst` web application, start with the `isc-hei-*` document and voilà ! 
 
 ## Using one of templates in your shell
+
 First start by installing `Typst` on your machine. You can then initialize the project with the command :
 
 ```bash

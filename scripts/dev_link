@@ -1,6 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # For development, create a symlink to the local package directory
-
 set -eu
 
 . "$(dirname "${BASH_SOURCE[0]}")/setup" ${2}
