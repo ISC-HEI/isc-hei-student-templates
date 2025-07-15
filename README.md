@@ -10,9 +10,9 @@
 These are the official templates for reports, bachelor theses, and project executive summaries for the [ISC degree programme](https://isc.hevs.ch/) at the School of Engineering in Sion. They are designed to help students focus on content by using `Typst` as the typesetting software.
 
 <p align="center">
-  <a href="https://github.com/ISC-HEI/isc-hei-student-templates/raw/29e437b6d872c8767c5e8c3dd65eee22d53830ca/examples/bachelor_thesis.pdf?raw=true"><img src="https://github.com/ISC-HEI/main/bachelor_thesis_thumb.png" alt="Bachelor Thesis" height="300"></a>
-  <a href="https://github.com/ISC-HEI/isc-hei-student-templates/main/examples/exec_summary.pdf?raw=true"><img src="https://github.com/ISC-HEI/isc-hei-student-templates/main/exec_summary.png" alt="Executive Summary" height="300"></a>
-  <a href="https://github.com/ISC-HEI/isc-hei-student-templates/main/examples/report.pdf?raw=true"><img src="https://github.com/ISC-HEI/isc-hei-student-templates/main/report_thumb.png" alt="Report" height="300"></a>
+  <a href="https://github.com/ISC-HEI/isc-hei-student-templates/raw/29e437b6d872c8767c5e8c3dd65eee22d53830ca/examples/bachelor_thesis.pdf?raw=true"><img src="https://github.com/ISC-HEI/isc-hei-student-templates/raw/29e437b6d872c8767c5e8c3dd65eee22d53830ca/bachelor_thesis_thumb.png" alt="Bachelor Thesis" height="300"></a>
+  <a href="https://github.com/ISC-HEI/isc-hei-student-templates/raw/29e437b6d872c8767c5e8c3dd65eee22d53830ca/examples/exec_summary.pdf?raw=true"><img src="https://github.com/ISC-HEI/isc-hei-student-templates/raw/29e437b6d872c8767c5e8c3dd65eee22d53830ca/exec_summary.png" alt="Executive Summary" height="300"></a>
+  <a href="https://github.com/ISC-HEI/isc-hei-student-templates/raw/29e437b6d872c8767c5e8c3dd65eee22d53830ca/examples/report.pdf?raw=true"><img src="https://github.com/ISC-HEI/isc-hei-student-templates/raw/29e437b6d872c8767c5e8c3dd65eee22d53830ca/report_thumb.png" alt="Report" height="300"></a>
 </p>
 
 ## Using the template, on the Web
