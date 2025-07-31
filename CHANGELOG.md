@@ -12,10 +12,10 @@
 ---
 # [v0.6.0](https://github.com/ISC-HEI/isc-hei-report/releases/tag/0.5.3)
 - Changes after the first student handout
-- Document check scripts (for fonts & info)
-- Added template version in document template metadata
-- Warning message if no URL for repos
-- Warning message if no document ID
+- Document check scripts (for fonts & info) -> OK
+- Added template version in document template metadata -> OK
+- Panic message if no URL for repos
+- Panic message if no document ID
 - Typos fixed -> OK
 - Header modified for right and left pages -> OK
 - Subtitles for long titles -> OK

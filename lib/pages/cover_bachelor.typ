@@ -15,12 +15,17 @@
   programme: "",
   major: "",
   authors: "",
-  thesis-id: "",
+  thesis-id: none,
   submission-date: "",
   revision: none,
   logo: none,
   language: "",
 ) = {
+
+  if(thesis-id == none) {
+    panic("You must provide a thesis ID (thesis-id) for the cover page.")
+  }
+
   let i18n = isc.i18n.with(extra-i18n: none, language)
 
   // Set the document's basic properties.

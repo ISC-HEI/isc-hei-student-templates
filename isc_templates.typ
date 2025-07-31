@@ -16,7 +16,6 @@
 // //////////////////////////
 #let heavy-title(title, mult: 1.5, bottom: 2pt, top: 4em) = {
   set text(size: chapter-font-size * mult, weight: chapter-font-weight)
-  // pagebreak(to: "odd", weak: false)
   block(fill: none, inset: (x: 0pt, bottom: bottom, top: top), below: space-after-heading * mult, {
     title
   })
@@ -29,9 +28,9 @@
 
 // Make a page break so that the next page starts on an odd page
 #let cleardoublepage() = {  
+  pagebreak(weak: true)    
   inc.blank-page.update(true)
-  pagebreak(to: "even")    
-  pagebreak()  
+  pagebreak(to: "odd", weak: true)  
   inc.blank-page.update(false)
 }
 
@@ -320,7 +319,11 @@
     // In a thesis, put chapters begin on odd pages
     // Add the header in a block to make space around it
     if it.level == 1 and is-thesis and split-chapters {      
-      pagebreak(to: "odd", weak: false)
+      pagebreak(weak: true)    
+      inc.blank-page.update(true)
+      pagebreak(to: "odd", weak: true)  
+      inc.blank-page.update(false)
+      
       block(fill: none, inset: (x: 0pt, bottom: 2pt, top: 1em), below: space-after-heading * 2, if (it.numbering != none) {
         // If the heading has a numbering, display it
         text(i18n("chapter-title") + " " + counter(heading).display() + " " + it.body, size: chapter-font-size, weight: chapter-font-weight)        
@@ -355,13 +358,6 @@
           text(", rev " + revision, style: "italic")
       }
 
-      if(inc.blank-page.get()) {
-        text(" (blank page)")
-      }
-      else{
-        text(" not blank")
-      }
-
       h(1fr)
       counter(page).display("1/1", both: true)
     }
@@ -371,26 +367,20 @@
   set page(
     // For pages other than the first one
     header: context if counter(page).get().first() > 1 {
-      if inc.header-footers-enabled.get() {
+      if inc.header-footers-enabled.get() and not inc.blank-page.get() {
+        let header-content = text(0.75em)[
+          #emph(authors-str)            
+        ]
 
-        // TODO: this does not work yet ?
-        if not inc.blank-page.get(){
-          let header-content = text(0.75em)[
-            #emph(authors-str)            
-          ]
-
-          let page = counter(page).get().first()
-          let content = if calc.odd(page) { align(right, header-content) } else { align(left, header-content)}
-          content
-        } else {
-          none
-        }
+        let page = counter(page).get().first()
+        let content = if calc.odd(page) { align(right, header-content) } else { align(left, header-content)}
+        content
       }
     },
     header-ascent: 40%,
     // For pages other than the first one
     footer: context if counter(page).get().first() > 1 {
-      if inc.header-footers-enabled.get() {
+      if inc.header-footers-enabled.get() and not inc.blank-page.get() {
         move(dy: 5pt, line(length: 100%, stroke: 0.5pt))
         footer-content
       } else {
