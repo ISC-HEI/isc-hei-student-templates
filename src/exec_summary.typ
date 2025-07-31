@@ -96,12 +96,12 @@ DataFlowX delivers significant benefits by enabling organizations to harness rea
 
 // TODO: please modify the following to suit your needs.
 #show: project.with(  
-  title: "Life, the Universe and Everything", 
+  title: "DataFlowX: A Scalable Data Engineering Platform for Real-Time Analytics", 
   language: doc_language, // Modify global if required, see above
   authors: "Stormy Peters", 
   student-picture: image("figs/random_image.png"), // [Optional], put none if not used
-  permanent-email: "john.doe@example.com", // [Optional], put none if not used
-  video-url: "https://isc.hevs.ch", // This is a link to the video of you project, if any
+  permanent-email: "john.doe@example.com", // [Optional], put none if not used. Do not use hevs address!
+  video-url: "https://isc.hevs.ch", // A link to the video of you project, or none
 
   summary: summary, // Not to be changed
   content: content, // Not to be changed

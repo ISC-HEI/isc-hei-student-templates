@@ -53,13 +53,25 @@
   let colon = if language == "fr" { " : " } else { ": " }
   set text(font: font, size: 8.5pt)
 
+  set par(leading: 0.4em)
+
+  let title_block = block(align(horizon, text(title, size: 22pt, weight: "bold")), fill: none, width: if video-url != none {100%} else {100%}, spacing: 0em, height: 6em)  
+
+  let author-text = if(permanent-email != none and permanent-email != "") {
+    text(authors + " | " + permanent-email, size: 14pt, fill: hei_color)
+  } else {
+    text(authors, size: 14pt, fill: hei_color)
+  }
+
+  title_block
+  v(0.5em)
+  text(author-text, size: 14pt)
+
+  set par(leading: 0.6em)
+
   // Title etc.
   stack(
-    text(title, size: 24pt, weight: "bold"),
-    v(1em),
     // Author
-    text(authors + " | " + permanent-email, size: 14pt),
-    v(2.5em),
     stack(spacing: 1em, if (supervisors != none) {
       text(i18n("programme-title")) + text(colon + programme + " | " + major, style: "italic")
       linebreak()
@@ -83,20 +95,21 @@
     v(1.3em), 
     line(start: (0pt, 0pt), length: 25pt, stroke: 1mm),     
     ),
-    v(.5em)
   )
+
+  v(-0.5em)
 
   if (summary.len() == 0) {
     panic("You must provide a summary for the executive summary cover page.")
   }
 
-  if (summary.len() > 425) {
-    panic("The summary must be less than 425 characters long. Currently it is " + str(summary.len()) + " characters long.")
+  if (summary.len() > 375) {
+    panic("The summary must be less than 375 characters long. Currently it is " + str(summary.len()) + " characters long.")
   }
 
   block(align(horizon, text(summary, fill: hei_color, size: 14pt)), fill: none, height: 3cm)
 
-  v(.5em)
+  // v(.5em)
 
   // set rect(
   //   inset: 5pt,
@@ -172,7 +185,7 @@
       top+right,
       float: false,        
       dx: 0mm,
-      dy: 0mm,
+      dy: 25mm,
       clearance: 0em,
       // Put it in a box to be resized
       stack(

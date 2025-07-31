@@ -258,7 +258,7 @@
   if(project-repos != none) {
     inc.global-project-repos.update(project-repos)
   }else{
-    panic("No project repository provided, you need to provide one!")
+    if(is-thesis) {panic("No project repository provided, you need to provide one!")}
   }
 
   let i18n = i18n.with(extra-i18n: extra-i18n, language)
@@ -514,7 +514,6 @@
 
     let exec_summary = cover_page(
       title: title,
-      sub-title: sub-title,
       authors: authors-str,
       summary: summary,
       content: content,
