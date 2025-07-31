@@ -23,6 +23,7 @@ echo "Processing template $TEMPLATE"
 
 # copy the current template typst.toml to the root directory
 cp -a "$ROOT/templates/$TEMPLATE/typst.toml" "$ROOT"
+cp -a "$ROOT/templates/$TEMPLATE/README.md" "$ROOT"
 
 . "$(dirname "${BASH_SOURCE[0]}")/setup" ${2}
 

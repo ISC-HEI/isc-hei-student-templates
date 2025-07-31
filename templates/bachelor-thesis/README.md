@@ -6,19 +6,17 @@
 ![GitHub Release](https://img.shields.io/github/v/release/ISC-HEI/isc-hei-report?include_prereleases)
 ![License](https://img.shields.io/badge/license-MIT-brightgreen")
 
-# Executive Summary Template for ISC Students
+# Bachelor Thesis Template for ISC Students
 
-This is the official template for executive summary of the bachelor thesis for the [ISC degree programme](https://isc.hevs.ch/) at the School of Engineering in Sion. It is part of the official templates repository, which also include templates for reports (`isc-hei-report`) and bachelor thesis as well (`isc-hei-bthesis`).
+This is the official template for bachelor theses for the [ISC degree programme](https://isc.hevs.ch/) at the School of Engineering in Sion. It is part of the official templates repository, which also include templates for reports (`isc-hei-report`) and executive summaries (`isc-hei-exec-summary`).
 
 <p align="center">
-  <a href="https://github.com/ISC-HEI/isc-hei-student-templates/blob/ad7ebe178126b2910e3a0e2ba1b1929cf24e47f3/examples/bachelor_thesis.pdf?raw=true"><img src="bachelor_thesis_thumb.png" alt="Bachelor Thesis" height="300"></a>
-  <a href="https://github.com/ISC-HEI/isc-hei-student-templates/blob/ad7ebe178126b2910e3a0e2ba1b1929cf24e47f3/examples/exec_summary.pdf?raw=true"><img src="exec_summary.png" alt="Executive Summary" height="300"></a>
-  <a href="https://github.com/ISC-HEI/isc-hei-student-templates/blob/ad7ebe178126b2910e3a0e2ba1b1929cf24e47f3/examples/report.pdf?raw=true"><img src="report_thumb.png" alt="Report" height="300"></a>
+   <a href="https://github.com/ISC-HEI/isc-hei-student-templates/blob/ad7ebe178126b2910e3a0e2ba1b1929cf24e47f3/examples/bachelor_thesis.pdf?raw=true"><img src="bachelor_thesis_thumb.png" alt="Bachelor Thesis" height="300"></a>  
 </p>
 
 ## Using the Template on the Web
 
-In the `Typst` web application, start a new project with the `isc-hei-exec-summary` template and voilà!
+In the `Typst` web application, start a new project with the `isc-hei-bthesis` template and voilà!
 
 ## Using the Template in Your Shell
 
@@ -41,13 +39,13 @@ from within the `fonts` directory.
 You can initialize the project with the command:
 
 ```bash
-typst init @preview/isc-hei-exec-summary
+typst init @preview/isc-hei-bthesis
 ```
 
 If you need a specific template version, use:
 
 ```bash
-typst init @preview/isc-hei-exec-summary:0.5.0
+typst init @preview/isc-hei-bthesis:0.5.0
 ```
 
 ## Including PDF Images
@@ -59,13 +57,13 @@ Unfortunately, `typst` does not support PDF file inclusion at the time of writin
 When used locally, creating a PDF is straightforward with the command:
 
 ```bash
-typst compile exec_summary.typ
+typst compile bachelor_thesis.typ
 ```
 
 Even better, the following command compiles the report every time the file is modified:
 
 ```bash
-typst watch exec_summary.typ
+typst watch bachelor_thesis.typ
 ```
 
 You can also use `VSCode` or `VSCodium` with the `Typst LSP` plugin, which enables direct compilation.
