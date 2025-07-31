@@ -4,7 +4,7 @@
 
 #let doc_language = "en" // Valid values are en, fr
 
-// Must be < 425 characters long.
+// Must be <= 365 characters long.
 #let summary = "DataFlowX is a scalable data engineering platform for real-time analytics on large, heterogeneous datasets. DataFlowX automates data ingestion, transformation, and validation using distributed processing and intelligent scheduling. The system ensures data quality, accelerates insights, and supports seamless integration with modern business intelligence tools."
 
 #let content = [
@@ -60,17 +60,17 @@ The platform leverages distributed processing and intelligent scheduling to opti
   })
 })
 
-#align(center, scale-to-width(50%, ex_fig)) 
+#align(center, scale-to-width(45%, ex_fig)) 
 
 == Explanation
 The development of DataFlowX followed an agile methodology, emphasizing iterative progress and continuous feedback. The project began with requirements gathering and architectural design, focusing on scalability and integration capabilities. Core modules for data ingestion, transformation, and validation were implemented using distributed processing frameworks. Automated testing and code reviews ensured reliability and maintainability throughout development. 
 
-Regular meetings with stakeholders guided feature prioritization and refinements. Integration with business intelligence tools was achieved via standardized APIs. Performance benchmarks and user acceptance testing validated the system’s effectiveness. Documentation and training materials were prepared to facilitate deployment and user onboarding, ensuring a smooth transition to production.
+Regular meetings with stakeholders guided feature prioritization and refinements. Integration with business intelligence tools was achieved via standardized APIs. Performance benchmarks and user acceptance testing validated the system’s effectiveness.
 
 #colbreak() // As Typst does not support auto column balancing, this must be put to break the columns evenly. Move it to a location that makes the columns even.
 
 == Conclusion / Benefits 
-DataFlowX delivers significant benefits by enabling organizations to harness real-time analytics on large, heterogeneous datasets with ease. Its automated data ingestion, transformation, and validation processes reduce manual effort and minimize errors, ensuring high data quality. The platform’s distributed architecture and intelligent scheduling optimize resource usage and scalability, supporting growing business needs. By streamlining complex data workflows and providing robust performance, DataFlowX empowers businesses to respond quickly to changing environments, maintain a competitive edge, and make informed, data-driven decisions with confidence and efficiency.
+DataFlowX delivers significant benefits by enabling organizations to harness real-time analytics on large, heterogeneous datasets with ease. Its automated data ingestion, transformation, and validation processes reduce manual effort and minimize errors, ensuring high data quality. The platform’s distributed architecture and intelligent scheduling optimize resource usage and scalability, supporting growing business needs. By streamlining complex data workflows and providing robust performance, DataFlowX empowers businesses to respond quickly to changing environments and make informed, data-driven decisions with confidence and efficiency.
 
 #figure(code(numbering: none)[
 ```scala
@@ -88,7 +88,7 @@ DataFlowX delivers significant benefits by enabling organizations to harness rea
  bottom,
  scope: "parent",
  float: true,
- figure(image("figs/made.svg", fit: "contain", height: 6cm, width: 100%), caption: "A figure spanning multiple columns"),
+ figure(image("figs/made.svg", fit: "contain", height: 5.5cm, width: 100%), caption: "A figure spanning multiple columns"),
 )
 
 // This is the end !

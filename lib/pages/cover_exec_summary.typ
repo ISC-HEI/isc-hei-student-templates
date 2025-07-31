@@ -51,7 +51,7 @@
   set figure.caption(separator: " - ") // With a nice separator  
 
   let colon = if language == "fr" { " : " } else { ": " }
-  set text(font: font, size: 8.5pt)
+  set text(font: font, size: 9pt)
 
   set par(leading: 0.4em)
 
@@ -103,8 +103,8 @@
     panic("You must provide a summary for the executive summary cover page.")
   }
 
-  if (summary.len() > 375) {
-    panic("The summary must be less than 375 characters long. Currently it is " + str(summary.len()) + " characters long.")
+  if (summary.len() > 365) {
+    panic("The summary must be less than 365 characters long. Currently it is " + str(summary.len()) + " characters long.")
   }
 
   block(align(horizon, text(summary, fill: hei_color, size: 14pt)), fill: none, height: 3cm)
