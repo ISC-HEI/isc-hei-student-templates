@@ -21,10 +21,6 @@ fi
 
 echo "Processing template $TEMPLATE"
 
-# copy the current template typst.toml to the root directory
-cp -a "$ROOT/templates/$TEMPLATE/typst.toml" "$ROOT"
-cp -a "$ROOT/templates/$TEMPLATE/README.md" "$ROOT"
-
 . "$(dirname "${BASH_SOURCE[0]}")/setup" ${2}
 
 TARGET="$(resolve-target "${1:?Missing target path, @local or @preview}")"
@@ -82,7 +78,12 @@ for f in "${files[@]}"; do
   cp -r "$ROOT/$f" "$TMP/$f"  
 done
 
+# Copy the specific files in templates to the root directory
+cp -a "$ROOT/templates/$TEMPLATE/README.md" "$TMP"
+cp -a "$ROOT/templates/$TEMPLATE/typst.toml" "$TMP"
+
 cp $ROOT/src/*.pdf "$ROOT/examples/"
+
 
 if [[ "$TEMPLATE" == "exec-summary" ]]; then
 	echo "Removing useless files from template $TEMPLATE"
@@ -128,6 +129,5 @@ mkdir -p "$TARGET"
 
 # include hidden files by setting dotglob
 shopt -s dotglob
-mv "$TMP"/* "$TARGET"
 
-rm -r "$ROOT/typst.toml"
+mv "$TMP"/* "$TARGET"
