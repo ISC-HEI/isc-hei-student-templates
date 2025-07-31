@@ -21,7 +21,24 @@ In the `Typst` web application, start with the `isc-hei-*` document and voilà !
 
 ## Using one of templates in your shell
 
-First start by installing `Typst` on your machine. You can then initialize the project with the command :
+First start by installing `Typst` on your machine using [instructions from the official repos](https://github.com/typst/typst).
+
+
+### Installing fonts locally
+
+If you are running `typst` locally, you might miss some of the required fonts. For your convenience, a font download script is included in the repository. As all the fonts are released under the [SIL Open Font License](https://openfontlicense.org/), there are no file inclusion issues here.
+
+To the install the fonts locally in a Linux environment, simply type
+
+```bash
+source install_fonts.sh
+```
+
+from within the `fonts` directory.
+
+### Project initialization and compilation
+
+You can then initialize the project with the command :
 
 ```bash
 typst init @preview/isc-hei-report
@@ -46,18 +63,6 @@ For the latest template of the executive summary, use:
 ```bash
 typst init @preview/isc-hei-exec-summary
 ```
-
-## Installing fonts locally
-
-If you are running `typst` locally, you might miss some of the required fonts. For your convenience, a font download script is included in this repos. As all the fonts are released under the [SIL Open Font License](https://openfontlicense.org/), there are no file inclusion issues here.
-
-To the install the fonts locally in a Linux environment, simply type
-
-```bash
-source install_fonts.sh
-```
-
-from within the `fonts` directory.
 
 ## PDF images inclusion
 

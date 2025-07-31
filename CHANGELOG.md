@@ -12,13 +12,14 @@
 ---
 # [v0.6.0](https://github.com/ISC-HEI/isc-hei-report/releases/tag/0.5.3)
 - Changes after the first student handout
-- Document check scripts (for fonts & info) -> OK
-- Added template version in document template metadata -> OK
+- Document check script (for fonts & info)
+- Added template version in document template metadata 
 - Panic message if no URL for repos
 - Panic message if no document ID
-- Typos fixed -> OK
-- Header modified for right and left pages -> OK
-- Subtitles for long titles -> OK
+- Typos fixed
+- Header modified for right and left pages 
+- Header modifier for executive summary, only space for 2 lines. 
+- Subtitles for long titles
 - README.md corrected with correct refs, image of templates corrected as well for Typst universe
 
 # [v0.5.3](https://github.com/ISC-HEI/isc-hei-report/releases/tag/0.5.3)

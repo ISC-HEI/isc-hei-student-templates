@@ -22,25 +22,25 @@ fi
 
 subject_line=$(pdfinfo "$PDF" | grep '^Subject:')
 
-if [[ $subject_line =~ ISC\ thesis\ using\ template\ version\ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+if [[ $subject_line =~ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
     version="${BASH_REMATCH[1]}"
     # Compare version with 0.5.3
     IFS='.' read -r major minor patch <<< "$version"
     if (( major > 0 )) || (( major == 0 && minor > 5 )) || (( major == 0 && minor == 5 && patch > 3 )); then
         # Check for SourceSans font
         if pdffonts "$PDF" | grep -q 'SourceSans'; then
-            echo "Document using a valid template version: $version"
-            echo "SourceSans font found in PDF."
+            echo -e "\e[32m✔\e[0m Document using a valid template version: $version"
+            echo -e "\e[32m✔\e[0m SourceSans font found in PDF."
             exit 0
         else
-            echo "Document is not using SourceSans font in PDF. Please install the required fonts (see fonts/install_fonts.sh)."
+            echo -e "\e[31m✗\e[0m Document is not using SourceSans font in PDF. Please install the required fonts (see fonts/install_fonts.sh)."
             exit 5
         fi
     else
-        echo "Invalid template version used: $version (must be > 0.5.3)"
+        echo -e "\e[31m✗\e[0m Invalid template version used: $version (must be > 0.5.3)"
         exit 3
     fi
 else
-    echo "Template information not found or does not match required format."
+    echo -e "\e[31m✗\e[0m Template information not found or does not match required format."
     exit 4
 fi

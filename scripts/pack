@@ -108,6 +108,7 @@ fi
 if [[ "$TEMPLATE" == "report" ]]; then
 	# remove the typst.toml in the template directory
 	echo "Removing bachelor_thesis from template $TEMPLATE"
+	rm -f "$TMP/src/check_result_file.sh"
 	rm -f "$TMP/src/bachelor_thesis.typ"
 	rm -f "$TMP/src/exec_summary.typ"
 	rm -f "$TMP/src/figs/random_image.png"

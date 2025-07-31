@@ -264,7 +264,7 @@
   let i18n = i18n.with(extra-i18n: extra-i18n, language)
 
   // Set the document's basic properties.
-  set document(author: authors, title: title, date: date, keywords: keywords, description: "ISC thesis using template version " + version)
+  set document(author: authors, title: title, date: date, keywords: keywords, description: "Using ISC template ver. " + version)
 
   set par(justify: true)
   

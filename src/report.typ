@@ -4,7 +4,7 @@
 
 #show: project.with(
   title: "Rapport de projet pour la filière ISC",
-  sub-title: [Avec une mise en page `Typst`],
+  subtitle: [Avec une mise en page `Typst`],
   authors: ("D. Knuth", "L. Torvalds", "M. Odersky",),  
   date: datetime(year: 2025, month: 6, day: 24), // or datetime.today()
   language: doc_language, // Please change the value above if required
@@ -13,7 +13,6 @@
   course-supervisor: "Prof. Dr P.-A. Mudry",
   semester: "Semestre de printemps",
   academic-year: "2025-2026",
-  version: [Using template 0.6.0],
   
   cover-image: image("figs/cover_image_placeholder.png"), // Change this to your cover image
   cover-image-height: 8cm,

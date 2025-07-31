@@ -7,7 +7,7 @@
   course-name: "",
   font: "",
   title: "",
-  sub-title: "",
+  subtitle: none,
   semester: "",
   academic-year: "",
   cover-image: "",
@@ -74,7 +74,7 @@
 
   // Subtitle
   v(1em, weak: true)
-  text(font: font, 1.2em, sub-title)
+  text(font: font, 1.2em, subtitle)
   line(length: 100%)
 
   v(4em)

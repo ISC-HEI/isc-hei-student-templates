@@ -54,7 +54,7 @@ typst init @preview/isc-hei-report:0.3.1
 
 Then go the directory, try to compile with `typst watch report.typ`.
 
-For convenience, `scripts/test-report.sh` and `scripts/test-thesis.sh` enable to quickly check for errors before deploying to the universe.
+For convenience, `scripts/test-report.sh`, `scripts/test-execsummary.sh` and `scripts/test-thesis.sh` enable to quickly check for errors before deploying to the universe.
 
 ## Deploying to Typst universe
 
