@@ -1,4 +1,4 @@
-#import "@preview/isc-hei-report:0.5.3" : *
+#import "@preview/isc-hei-report:0.6.0" : *
 
 #let doc_language = "fr" // Valid values are en, fr
 
@@ -13,7 +13,7 @@
   course-supervisor: "Prof. Dr P.-A. Mudry",
   semester: "Semestre de printemps",
   academic-year: "2025-2026",
-  version: [Using template 0.5.3],
+  version: [Using template 0.6.0],
   
   cover-image: image("figs/cover_image_placeholder.png"), // Change this to your cover image
   cover-image-height: 8cm,

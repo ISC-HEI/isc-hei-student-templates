@@ -1,6 +1,6 @@
 // Adapted from the BFH year book idea at https://www.bfh.ch/dam/jcr:e512ae31-a3ed-4b65-b589-870383d794b0/abschlussarbeiten-bsc-informatik.pdf
 
-#import "@preview/isc-hei-exec-summary:0.5.3" : *
+#import "@preview/isc-hei-exec-summary:0.6.0" : *
 
 #let doc_language = "en" // Valid values are en, fr
 

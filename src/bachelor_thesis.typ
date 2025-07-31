@@ -1,16 +1,17 @@
-#import "@preview/isc-hei-bthesis:0.5.3" : *
+#import "@preview/isc-hei-bthesis:0.6.0" : *
 
 #let doc_language = "en" // Valid values are en, fr
 
 #show: project.with( 
   title: "Life, the Universe, and Everything", // Your thesis title
+  subtitle: "An exploration of the intersection between computer science and engineering, focusing on their impact on modern technological advancements.", // Optional, use none if not needed
   authors: "James Gosling", 
   language: doc_language, // must be defined globally, see above
   
   thesis-supervisor: "Prof. Dr John von Neumann", 
   thesis-co-supervisor: "Lady Ada Lovelace", // Optional, use none if not needed
   thesis-expert: "Dr Grace Hopper", // Optional, use none if not needed
-  thesis-id: "ISC-ID-2501", // Your thesis ID (from the official project description) or none if not used
+  thesis-id: "ISC-ID-25-1", // Your thesis ID (from the official project description)
   project-repos: "https://isc.hevs.ch", // Your project repository
 
   school: "Haute École d'Ingénierie de Sion", 
@@ -24,7 +25,7 @@
 
   is-thesis: true,
   split-chapters: true,
-  version: none, // Or for instance "1.0", for the version of your thesis  
+  revision: "1.0", // Or for instance "1.0", for the version of your thesis  
   code-theme: "bluloco-light", // See directory themes/ for available themes
 ) 
 
@@ -73,6 +74,13 @@ This structure may vary depending on the field of study, but these elements are 
 
 You can also change the order or the names of the sections, for instance if you want to put the state of the art before the introduction, or if you want to add a section on methodology before the results.
 
+== Academic titles
+Please note that the academic titles of your supervisors and experts are important. 
+
+They should be included in the cover page, and you should use the correct title when addressing them in the acknowledgements section. For instance, a professor should be addressed as "Prof. [Name]", while a doctor should be addressed as "Dr [Name]" (*without a colon !*). A professor who is also a doctor should be addressed as "Prof. Dr [Name]".
+
+If you are unsure about the title of your supervisor / co-supervisor or the expert, you can ask them directly or check their profile on the university website.
+
 = Introduction
 Have fun #todo[writing your thesis!] and good luck with it !
 
@@ -87,6 +95,10 @@ Have fun #todo[writing your thesis!] and good luck with it !
 #lorem-pars(1500)
 
 = Results and Discussion
+#lorem-pars(950)
+
+#lorem-pars(950)
+
 #lorem-pars(950)
 
 = Conclusion

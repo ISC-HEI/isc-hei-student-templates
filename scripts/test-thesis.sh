@@ -17,7 +17,7 @@ else
 fi
 
 cd tmp
-typst init @preview/isc-hei-bthesis:0.5.3
+typst init @preview/isc-hei-bthesis:0.6.0
 cd isc-hei-bthesis
 echo "Compiling bachelor thesis..."
 typst compile bachelor_thesis.typ

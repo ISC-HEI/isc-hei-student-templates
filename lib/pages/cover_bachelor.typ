@@ -8,6 +8,7 @@
   expert: none,
   font: "",
   title: "",
+  subtitle: none,
   semester: "",
   academic-year: "",
   school: "",
@@ -16,6 +17,7 @@
   authors: "",
   thesis-id: "",
   submission-date: "",
+  revision: none,
   logo: none,
   language: "",
 ) = {
@@ -27,6 +29,19 @@
   // School logo
   place(top + right, dx: -8mm, dy: 10mm, image("../assets/hei_logo.svg", width: 180pt))
 
+  let title_block = if subtitle == none {
+      stack(
+        par(leading: 11pt, text(title, size: 24pt, weight: 660)),
+        v(5mm),)
+    }
+    else{
+      stack(
+        par(leading: 11pt, text(title, size: 24pt, weight: 660)),
+        v(8mm),    
+        par(leading: 11pt, text(subtitle, size: 12pt)),
+        v(8mm))
+   }  
+
   // Title etc.
   pad(left: 38mm, top: 75mm, right: 18mm, stack(
     // Type
@@ -37,8 +52,7 @@
     text(authors, size: 14pt),
     v(25mm),
     // Title
-    par(leading: 11pt, text(title, size: 24pt, weight: 660)),
-    v(5mm),
+    title_block,
     line(start: (0pt, 0pt), length: 2.5cm, stroke: .7mm),
     v(5mm),
     text(programme, size: 14pt),
@@ -65,11 +79,15 @@
   stack(
     // Author
     align(center, text(authors, size: 18pt)),
-    v(23mm),
-    // Title
-    align(center, par(leading: 13pt, text(title, size: 22pt, weight: 620))),
-    v(22mm),
+    v(23mm)
   )
+  
+  align(center, par(leading: 13pt, text(title, size: 22pt, weight: 620)))  
+  v(8mm)
+
+  if(subtitle != none) {
+    align(center, par(leading: 13pt, text(subtitle, size: 12pt)))
+  }
 
   v(1fr)
 
@@ -110,7 +128,7 @@
         v(6mm),
         line(start: (0pt, 0pt), length: 25pt, stroke: 1mm),
         v(6mm),
-        text(i18n("submitted-on") + colon + inc.custom-date-format(submission-date, i18n("date-format"), language), size: 10pt),
+        text(i18n("submitted-on") + " " + inc.custom-date-format(submission-date, i18n("date-format"), language), size: 10pt),
       )
     },
   )

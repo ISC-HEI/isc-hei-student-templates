@@ -9,6 +9,7 @@
 #let chapter-font-size = 1.4em
 #let chapter-font-weight = 650
 #let global-keywords = inc.global-keywords
+#let version = "0.6.0"
 
 //////////////////////////
 // User callable functions
@@ -27,9 +28,11 @@
 }
 
 // Make a page break so that the next page starts on an odd page
-#let cleardoublepage() = {
-  pagebreak(to: "even")
-  pagebreak()
+#let cleardoublepage() = {  
+  inc.blank-page.update(true)
+  pagebreak(to: "even")    
+  pagebreak()  
+  inc.blank-page.update(false)
 }
 
 // Indicate that something still needs to be done
@@ -205,7 +208,7 @@
  ********************************/
 #let project(
   title: [Report title],
-  sub-title: [Report sub-title],
+  subtitle: none,
   academic-year: [2024-2025],
   // If it's a thesis
   is-thesis: false,
@@ -242,7 +245,7 @@
   date: none,
   logo: none,
   equations: false,
-  version: "",
+  revision: none,
   language: "fr",
   extra-i18n: none,
   code-theme: "bluloco-light",
@@ -255,12 +258,14 @@
 
   if(project-repos != none) {
     inc.global-project-repos.update(project-repos)
+  }else{
+    panic("No project repository provided, you need to provide one!")
   }
 
   let i18n = i18n.with(extra-i18n: extra-i18n, language)
 
   // Set the document's basic properties.
-  set document(author: authors, title: title, date: date, keywords: keywords)
+  set document(author: authors, title: title, date: date, keywords: keywords, description: "ISC thesis using template version " + version)
 
   set par(justify: true)
   
@@ -341,30 +346,45 @@
     authors-str = authors.at(0)
   } else {
     panic("No authors provided for the report")
-  }
-
-  let header-content = text(0.75em)[
-    #emph(authors-str)
-    #h(1fr)
-    #emph(version)
-  ]
+  }  
 
   let footer-content = context text(0.75em)[
     #{
-      emph(title)
+      emph(title) 
+      if revision != none {
+          text(", rev " + revision, style: "italic")
+      }
+
+      if(inc.blank-page.get()) {
+        text(" (blank page)")
+      }
+      else{
+        text(" not blank")
+      }
+
       h(1fr)
       counter(page).display("1/1", both: true)
     }
   ]
-
+  
   // Set header and footers
   set page(
     // For pages other than the first one
     header: context if counter(page).get().first() > 1 {
       if inc.header-footers-enabled.get() {
-        header-content
-      } else {
-        none
+
+        // TODO: this does not work yet ?
+        if not inc.blank-page.get(){
+          let header-content = text(0.75em)[
+            #emph(authors-str)            
+          ]
+
+          let page = counter(page).get().first()
+          let content = if calc.odd(page) { align(right, header-content) } else { align(left, header-content)}
+          content
+        } else {
+          none
+        }
       }
     },
     header-ascent: 40%,
@@ -445,7 +465,7 @@
       course-name: course-name,
       font: sans-font,
       title: title,
-      sub-title: sub-title,
+      subtitle: subtitle,
       semester: semester,
       academic-year: academic-year,
       cover-image: cover-image,
@@ -471,11 +491,12 @@
       supervisors = (thesis-supervisor, thesis-co-supervisor)
     }
 
-    let report_cover = cover_page(
+    let thesis_cover = cover_page(
       supervisors: supervisors,
       expert: thesis-expert,
       font: sans-font,
       title: title,
+      subtitle: subtitle,
       semester: semester,
       academic-year: academic-year,
       school: school,
@@ -484,11 +505,12 @@
       authors: authors-str,
       thesis-id: thesis-id,
       submission-date: date,
+      revision: revision,
       logo: logo,
       language: language,
     )
 
-    report_cover
+    thesis_cover
   } else if is-executive-summary {
     import "lib/pages/cover_exec_summary.typ": cover_page
 
@@ -500,8 +522,9 @@
       supervisors = (thesis-supervisor, thesis-co-supervisor)
     }
 
-    let report_cover = cover_page(
+    let exec_summary = cover_page(
       title: title,
+      sub-title: sub-title,
       authors: authors-str,
       summary: summary,
       content: content,
@@ -520,7 +543,7 @@
       font: sans-font,
     )
 
-    report_cover
+    exec_summary
   }
 
   body

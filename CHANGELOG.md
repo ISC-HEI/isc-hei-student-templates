@@ -10,6 +10,17 @@
 - nothing special
 
 ---
+# [v0.6.0](https://github.com/ISC-HEI/isc-hei-report/releases/tag/0.5.3)
+- Changes after the first student handout
+- Document check scripts (for fonts & info)
+- Added template version in document template metadata
+- Warning message if no URL for repos
+- Warning message if no document ID
+- Typos fixed -> OK
+- Header modified for right and left pages -> OK
+- Subtitles for long titles -> OK
+- README.md corrected with correct refs, image of templates corrected as well for Typst universe
+
 # [v0.5.3](https://github.com/ISC-HEI/isc-hei-report/releases/tag/0.5.3)
 - Official repository field and official ID of the thesis added
 - Title page of bachelor thesis now shows the official thesis ID
