@@ -121,5 +121,5 @@ DataFlowX delivers significant benefits by enabling organizations to harness rea
   major : "Data engineering", // "Software engineering", "Networks and systems", "Embedded systems", "Computer security", "Data engineering""
 
   bind: right, // Bind the left side of the page
-  footer: "Executive summary", // align(right, text(0.9em)[This is some content for the footer])
+  footer: none, // align(right, text(0.9em)[This is some content for the footer])
 ) 

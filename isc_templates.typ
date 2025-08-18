@@ -362,8 +362,7 @@
       counter(page).display("1/1", both: true)
     }
   ]
-  
-  // Set header and footers
+
   set page(
     // For pages other than the first one
     header: context if counter(page).get().first() > 1 {
