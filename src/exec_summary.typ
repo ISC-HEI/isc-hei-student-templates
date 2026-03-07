@@ -2,8 +2,6 @@
 
 #import "@preview/isc-hei-exec-summary:0.7.0" : *
 
-#let doc_language = "en" // Valid values are en, fr
-
 // Must be <= 365 characters long.
 #let summary = "DataFlowX is a scalable data engineering platform for real-time analytics on large, heterogeneous datasets. DataFlowX automates data ingestion, transformation, and validation using distributed processing and intelligent scheduling. The system ensures data quality, accelerates insights, and supports seamless integration with modern business intelligence tools."
 
@@ -97,7 +95,7 @@ DataFlowX delivers significant benefits by enabling organizations to harness rea
 // TODO: please modify the following to suit your needs.
 #show: project.with(  
   title: "DataFlowX: A Scalable Data Engineering Platform for Real-Time Analytics", 
-  language: doc_language, // Modify global if required, see above
+  language: "en", // Valid values are en, fr, de
   authors: "Stormy Peters", 
   student-picture: image("figs/random_image.png"), // [Optional], put none if not used
   permanent-email: "stormy.peters@example.com", // [Optional], put none if not used. Prefer a long term viable address!

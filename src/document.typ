@@ -1,203 +1,166 @@
 #import "@preview/isc-hei-document:0.7.0" : *
 
-#let doc_language = "fr" // Valid values are en, fr
-
 #show: project.with(
   doc-type: "document",
-  show-cover: true,
+  show-cover: false,
   show-toc: false,
 
-  title: "A simple document",
+  title: "A simple template for ISC documents",
   subtitle: [Typeset with `Typst`],
   authors: ("A. Lovelace", "Prof. B. Liskov", "Prof. N. Wirth",),    
   
   date: datetime(year: 2026, month: 3, day: 24), // or datetime.today()
   revision: "1.0",
-  language: doc_language, // Please change the value above if required  
-  logo: image("figs/isc_logo.svg"),
+  language: "fr", // Valid values are en, fr, de
+  logo: none, // Set to none if you wish no logo at all
   
   code-theme: "bluloco-light", // See directory themes/ for available themes
 )
 
 // Let's get started folks!
 
-#table-of-contents(depth: 1)
+#table-of-contents(depth: 2)
 
 = Introduction
 
-Écrire un rapport est un exercice autant *de fond que de forme*. Dans ce contexte, nous proposons dans ce document de quoi simplifier la rédaction de la forme sans avoir -- à priori -- d'avis sur le fond, ceci dans le contexte de la filière ISC#footnote[Voici d'ailleurs comment mettre une note de bas de page https://isc.hevs.ch].
+Ce document présente un aperçu des fonctionnalités offertes par #link("https://typst.app")[Typst], un système de composition typographique moderne. Les sections suivantes illustrent la mise en forme de texte, les listes, les tableaux, les images, le code source, les formules mathématiques et bien plus encore.
 
-Il convient tout d'abord pour présenter le contenu de se rendre compte que ce système de mise en page permet d'utiliser une forme de _markdown_ comme entrée. Le _markdown_ est une manière de formatter des fichiers textes afin de pouvoir les transformer avec un programme afin de les afficher dans différents formats, comme PDF ou encore sous forme de page web.
+#lorem(100)
 
-Le langage _markdown_ utilise différents types de balises permettant de faire du *gras*, de _l'italique_ ou encore du _*gras et de l'italique*_. Il est également possible de faire des listes, des tableaux, des images, des liens hypertextes, des notes de bas de page, des équations mathématiques comme $x^2 = 3$, des blocs de code comme par exemple `def hello()` et encore bien d'autres choses.
+#lorem(100)
 
-Vous trouverez ici de la documentation sur la manière d'utiliser le langage `markdown` pour écrire des documents ici : https://www.markdownguide.org/basic-syntax/. Vous trouverez également une version spécifique sur l'écriture de documents en Typst ici https://typst.app/docs/reference/syntax/.
+= Mise en forme du texte
 
-En plus des choses simples montrées ci-dessus, le `markdown` simplifie la création de listes avec des nombres comme suit :
+Typst offre une syntaxe simple et intuitive pour formater du texte. On peut écrire en *gras*, en _italique_, ou en *_gras italique_*. Il est aussi possible d'utiliser du `code en ligne` directement dans le texte.
 
-+ Un élément
-+ Un autre élément de liste
-+ Encore d'autres éléments si nécessaire
+Les #text(fill: blue)[couleurs] sont facilement applicables, tout comme les changements de #text(size: 14pt)[taille] ou de #text(font: "New Computer Modern")[police]. On peut également #underline[souligner], #strike[barrer] ou mettre en #smallcaps[petites capitales].
 
-Des choses plus exotiques, comme mettre du #todo[texte mis en évidence] sont également possibles, tout comme les références à d'autres parties, comme dans le @intro[point].
+#quote(block: true, attribution: [Donald Knuth])[
+  The best programs are written so that computing machines can perform them quickly and so that human beings can understand them clearly.
+]
 
-== Insertion de code
+== Listes
 
-Nous pouvons également avoir du `code brut directement en ligne` mais cela peut également être fait avec du code Scala comme par exemple dans ```scala def foo(x: Int)```. Cela n'empêche pas d'avoir des blocs de code joliment mis en forme également. Ainsi, lorsque l'on souhaite avoir du code inséré dans une figure, on peut également utiliser le package `sourcecode` qui rajoute notamment les numéros de ligne. En complément avec une `figure`, il est possible d'avoir une _légende_, un numéro de figure ainsi que du code centré :
+Les listes à puces et numérotées sont très simples à créer :
 
-#figure(code()[
-```scala
-  def foo(val a : Any) : Int = {
-    a match :
-      case a: Int  => 12
-      case _ => 42
-  }
-  ```
-], caption: "Un tout petit listing en Scala")
+- Premier élément
+- Deuxième élément avec sous-éléments :
+  - Sous-élément A
+  - Sous-élément B
+- Troisième élément
 
-On peut si on le souhaite également avoir des blocs de code plus long si nécessaire, sur plusieurs pages :
+Et les listes numérotées :
 
-#figure(code()[
-```scala
-  object ImageProcessingApp_Animation extends App {
-    val imageFile = "./res/grace_hopper.jpg"
++ Analyser le problème
++ Concevoir une solution
++ Implémenter et tester
++ Documenter le résultat
 
-    val org = new ImageGraphics(imageFile, "Original", -200, 0)
-    val dest2 = new ImageGraphics(imageFile, "Threshold", 200, 0)
+= Tableaux et figures
 
-    var direction: Int = 1
-    var i = 1
+== Tableaux
 
-    while (true) {
-      if (i == 255 || i == 0)
-        direction *= -1
+Les tableaux permettent de présenter des données de manière structurée. Voici un comparatif de quelques langages de programmation :
 
-      i = i + direction
-      dest2.setPixelsBW(ImageFilters_Solution.threshold(org.getPixelsBW(), i))
-    }
-  }
-  ```
-], caption: "Un autre exemple de code, plus long")
+#figure(
+  table(
+    columns: (auto, 1fr, 1fr, auto),
+    align: (left, center, center, center),
+    stroke: 0.5pt + luma(180),
+    inset: 8pt,
+    fill: (x, y) => if y == 0 { luma(230) } else if calc.odd(y) { luma(245) } else { white },
+    table.header(
+      [*Langage*], [*Paradigme*], [*Typage*], [*Année*],
+    ),
+    [Python], [Multi-paradigme], [Dynamique], [1991],
+    [Scala], [Fonctionnel / OO], [Statique], [2004],
+    [Rust], [Système], [Statique], [2010],
+    [Typst], [Markup / Script], [Dynamique], [2023],
+    [C], [Procédural], [Statique], [1972],
+  ),
+  caption: [Comparaison de langages de programmation],
+) <tab:langages>
 
-=== Insérer du code à partir d'un fichier
-Il est tout à fait possible de mettre du code qui provient d'un fichier comme ci-dessous :
-
-#let code_sample = read("code/sample.scala")
-#figure(code()[
-  #raw(code_sample, lang: "scala")
-], caption: "Code included from the file `sample.scala`")
+Comme le montre la @tab:langages, chaque langage a ses propres caractéristiques. On peut référencer les tableaux et figures automatiquement grâce aux labels.
 
 == Insertion d'images
 
-Une image vaut souvent mieux que mille mots ! Il est possible d'ajouter des images, bien entendu. La syntaxe est relativement simple comme vous pouvez le voir dans l'exemple ci-dessous:
+Les images s'insèrent facilement avec la fonction `image`. Voici un exemple :
 
-#figure(image("figs/pixelize.png", height: 4cm), caption: [Grace Hopper, informaticienne américaine]) <fig_engineer>
+#figure(
+  image("figs/random_image.png", width: 30%),
+  caption: [Une image d'exemple insérée dans le document],
+) <fig:exemple>
 
-Pour le reste, voici un texte pour voir de quoi il retourne. Vous allez réaliser une fonction appelée _mean_ qui va appliquer un filtre de moyenne à l'image. Ce filtre a pour but de flouter l'image et d'enlever ainsi ses aspérités. Le principe est le suivant : la valeur d'un pixel est remplacée par la moyenne des pixels se trouvant dans une zone carrée de 3 par 3 pixels autour du pixel. Si on veut calculer la nouvelle valeur du pixel situé à la position $(x,y)$ selon la figure @fig_engineer, sa nouvelle valeur sera la moyenne des 9 valeurs affichées.
+La @fig:exemple montre comment inclure une image avec une légende. Les images peuvent être redimensionnées, alignées et référencées dans le texte.
 
-La dérivée doit se calculer selon les deux axes. Le calcul est très simple : la dérivée selon `x` du pixel situé en $(x,y)$ vaut la valeur du pixel de droite $(x+1, y)$ moins la valeur du pixel de gauche $(x-1,y)$. Dans le cas de la figure, la dérivée selon $x$ vaut $D_x=234-255=-21$.
 
-De même, on peut calculer la dérivée selon $y$. Elle correspond au pixel du dessous $(x,y+1)$ moins le pixel $(x,y-1)$ du dessus. Dans le cas de la @fig_engineer, la dérivée selon $y$ vaut $D_y = 230-127 = 103$.
+= Code et mathématiques
 
-La norme de la dérivée est calculée selon le théorème de Pythagore :
+== Blocs de code
 
-$ D = sqrt(D_x^ 2 +D_y^2) $
+Typst peut afficher du code source avec coloration syntaxique :
 
-On peut également avoir des notations plus complexes :
+#code(
+  ```python
+  def fibonacci(n: int) -> list[int]:
+      """Génère les n premiers nombres de Fibonacci."""
+      fib = [0, 1]
+      for i in range(2, n):
+          fib.append(fib[-1] + fib[-2])
+      return fib
 
-$ sum_(n=1)^(infinity) 2^(-n) = 1 "ou encore" integral_(x = 0)^3 x^2 dif x $
+  # Afficher les 10 premiers
+  print(fibonacci(10))
+  ```
+)
 
-#inc.showybox(
-  title: "Stokes' theorem",
-  frame: (
-    border-color: blue,
-    title-color: blue.lighten(30%),
-    body-color: blue.lighten(95%),
-    footer-color: blue.lighten(80%),
-  ),
-  // footer: "Information extracted from a well-known public encyclopedia"
-)[
-  Let $Sigma$ be a smooth oriented surface in $RR^3$ with boundary $partial Sigma equiv Gamma$. If a vector field $bold(F)(x,y,z)=(F_x (x,y,z), F_y (x,y,z), F_z (x,y,z))$ is defined and has continuous first order partial derivatives in a region containing $Sigma$, then
+Et un autre exemple en Scala :
 
-  $ integral.double_Sigma (bold(nabla) times bold(F)) dot bold(Sigma) = integral.cont_(partial Sigma) bold(F) dot dif bold(Gamma) $
-]
+#code(
+  ```scala
+  case class Student(name: String, grade: Double)
 
-// You can create a new page with a pagebreak
-#pagebreak()
+  val students = List(
+    Student("Alice", 5.5),
+    Student("Bob", 4.8),
+    Student("Charlie", 5.9),
+  )
 
-== Des tables
+  val average = students.map(_.grade).sum / students.length
+  println(f"Moyenne: $average%.1f")
+  ```
+)
 
-Il est possible d'insérer des tables simples :
+== Formules mathématiques
 
-#figure(table(
-  align: left,
-  columns: 4,
-  stroke: none,
-  [*Monday*],
-  [11.5],
-  [13.0],
-  [4.0],
-  [*Tuesday*],
-  [8.0],
-  [14.5],
-  [5.0],
-  [*Wednesday*],
-  [9.0],
-  [18.5],
-  [13.0],
-), caption: "Une table simple")
+Typst dispose d'un excellent support des mathématiques. Par exemple, la formule d'Euler :
 
-Des tables plus compliquées sont également possible. La page https://typst.app/docs/guides/table-guide/ donne d'ailleurs de bonnes informations.
+$ e^(i pi) + 1 = 0 $
 
-#set table(stroke: (x, y) => (left: if x > 0 { 0.8pt }, top: if y > 0 { 1.5pt }))
+Une intégrale classique :
 
-#figure(table(
-  // Table with 3 columns and 3 rows
-  // There are 3 columns, the first one is twice as large as the two others
-  columns: (2fr, 1fr, 1fr),
-  align: center + horizon,
-  table.header[*Technique*][*Advantage*][*Drawback*],
-  [Diegetic],
-  [Immersive],
-  [May be contrived],
-  [Extradiegetic],
-  [Breaks immersion],
-  [Obstrusive],
-  [Omitted],
-  [Fosters engagement],
-  [May fracture audience],
-), caption: [Une table plus complexe])
+$ integral_0^infinity e^(-x^2) dif x = sqrt(pi) / 2 $
 
-== Citer ses sources
-Il est important de citer les sources que l'on utilise. Par exemple, les deux travaux @mui_nasa_dod09, @mui_hybrid_06 et @mudry:133438 sont deux papiers très intéressants à lire et dont les références complètes se trouvent dans la bibliographie à la fin de ce document. 
+Ou encore la définition d'une matrice et d'un système d'équations :
 
-Si l'on souhaite citer des références issues d'une page ou d'un site web et que cette référence est importante, on utilisera la syntaxe @WinNT qui cite une référence de la bibliographie. Pour les autres cas, il est possible de référer au site uniquement avec son URL.
+$ bold(A) = mat(
+  a_(1,1), a_(1,2), dots.c, a_(1,n);
+  a_(2,1), a_(2,2), dots.c, a_(2,n);
+  dots.v, dots.v, dots.down, dots.v;
+  a_(m,1), a_(m,2), dots.c, a_(m,n);
+) $
 
-== Un exemple de texte : le filtre de Sobel
-Une autre méthode pour extraire les contours à l'intérieur d'une image est d'utiliser #link("https://fr.wikipedia.org/wiki/Détection_de_contours")[l'algorithme de Sobel] Cette méthode est très similaire à celle de la dérivée, mais un peu plus compliquée et donne de meilleurs résultats.
+Les formules en ligne comme $sum_(k=1)^n k = n(n+1)/2$ s'intègrent naturellement dans le texte.
 
-Pour l'exemple, la valeur du filtre de Sobel selon _x_ vaudrait :
+== Boîtes et encadrés
 
-$ S_x= 100 + 2 dot 234 + 84 -128-2 dot 255-123=-109 $
+On peut utiliser les boîtes de `showybox` pour mettre en valeur du contenu :
 
-De même la valeur du filtre de Sobel selon _y_ vaudrait:
+#todo[Compléter cette section avec d'autres exemples]
 
-$ S_y= 123+2 dot 230+84-128-2 dot 127-100 $
-
-Comme auparavant, la norme du filtre de Sobel se calcule selon Pythagore et vaut pour cet exemple :
-
-$ S = sqrt(S_x^2+S_y^2) = sqrt(109^2+185^2) =214.47 $
-
-== Problématique <intro>
-#lorem(20)
-
-== Plan du travail
-#lorem(40)
-
-#pagebreak()
-
-= Conclusion
-#lorem(500)
+= Citer ses sources
+Il est important de citer les sources que l'on utilise. Par exemple, les deux travaux @mui_nasa_dod09, @mui_hybrid_06 et @mudry:133438 sont des papiers très intéressants à lire et dont les références complètes se trouvent dans la bibliographie à la fin de ce document. 
 
 #pagebreak()
 #the-bibliography(bib-file: "bibliography.bib", full: true, style: "ieee")

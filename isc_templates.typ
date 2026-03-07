@@ -5,11 +5,11 @@
 #import "lib/includes.typ" as inc
 
 // Global settings
-#let space-after-heading = 0.5em
+#let space-after-heading = 0.8em
 #let chapter-font-size = 1.4em
 #let chapter-font-weight = 650
 #let global-keywords = inc.global-keywords
-#let version = "0.6.0"
+#let version = "0.7.0"
 
 //////////////////////////
 // User callable functions
@@ -251,7 +251,7 @@
   // A list of authors, separated by commas
   authors: (),
   date: none,
-  logo: none,
+  logo: auto, // auto = default logo for document type, none = no logo
   equations: false,
   revision: none, // Like a version number
   language: "fr",
@@ -298,6 +298,7 @@
   show raw: set text(font: raw-font) // For code
 
   show heading: set text(font: sans-font) // For sections, sub-sections etc..
+  show heading: set block(below: space-after-heading)
 
   /////////////////////////////////////////////////
   // Citation style
@@ -315,11 +316,17 @@
     paper: "a4",
   ) if(doc-type == "thesis")  
 
-  // Report and document specific settings
+  // Report specific settings
   set page(
     margin: (inside: 2.5cm, outside: 2cm, y: 2.1cm), // Binding inside
     paper: "a4",    
-  ) if(doc-type == "report" or doc-type == "document")
+  ) if(doc-type == "report")
+
+  // Document specific settings — symmetric margins
+  set page(
+    margin: (x: 2.0cm, y: 1.8cm),
+    paper: "a4",    
+  ) if(doc-type == "document")
 
   if (doc-type != "thesis") {
     // For reports and documents, we want to put the header and footer on all pages
@@ -391,13 +398,30 @@
       }
     },
     header-ascent: 40%,
-    // For pages other than the first one
-    footer: context if counter(page).get().first() > 1 {
-      if inc.header-footers-enabled.get() and not inc.blank-page.get() {
-        move(dy: 5pt, line(length: 100%, stroke: 0.5pt))
-        footer-content
-      } else {
-        none
+    footer: context {
+      if counter(page).get().first() == 1 and not show-cover and (doc-type == "report" or doc-type == "document") {
+        // First page compact mode: show date and version
+        text(0.75em, {
+          if date != none {
+            inc.custom-date-format(date, i18n("date-format"), language)
+          }
+          if revision != none {
+            if date != none {
+              [ — v#revision]
+            } else {
+              [v#revision]
+            }
+          }
+          h(1fr)
+          counter(page).display("1/1", both: true)
+        })
+      } else if counter(page).get().first() > 1 {
+        if inc.header-footers-enabled.get() and not inc.blank-page.get() {
+          move(dy: 5pt, line(length: 100%, stroke: 0.5pt))
+          footer-content
+        } else {
+          none
+        }
       }
     },
   )
@@ -459,8 +483,59 @@
   /////////////////////////////////////////////////
   // Cover pages
   /////////////////////////////////////////////////
-  if not show-cover {
-    // Skip cover page entirely
+  // Default logo for document type
+  let logo = if logo == auto and doc-type == "document" {
+    if show-cover{
+      image("lib/assets/isc_logo.svg")      
+    } else {
+      image("lib/assets/isc_logo_raw.svg")
+    }
+  } else if logo == auto {
+    none
+  } else {
+    logo
+  }
+
+  if not show-cover and (doc-type == "report" or doc-type == "document") {
+    // Compact inline header: logo, title, authors — no page break
+    if logo != none {
+      place(
+        top + right,
+        dx: 0mm,
+        dy: -2mm,
+        clearance: 0em,
+        box(width: 2.2cm, logo),
+      )
+    }
+
+    text(font: sans-font, 1.8em, weight: 700, title)
+    linebreak()    
+    v(-0.2em)
+    text(1.1em, authors.join(", "))
+    v(-0.1em)
+    layout(size => {
+      let total-w = size.width
+      let solid-end = 0.8 * total-w
+      let square-size = 1.5pt
+      let color = luma(20)
+      // Solid line for the first 80%
+      place(line(length: solid-end, stroke: (paint: color, thickness: 1.5pt)))
+      // Small squares with increasing spacing for the remaining 40%
+      let remaining = total-w - solid-end
+      let x = solid-end + 0.5pt
+      let gap = 0.5pt
+      let positions = ()
+      while x < total-w {
+        positions.push(x)
+        gap = gap * 1.3
+        x = x + square-size + gap
+      }
+      for px in positions {
+        place(dx: px, dy: -square-size / 2, rect(width: square-size, height: square-size, fill: color, stroke: none))
+      }
+      v(square-size)
+    })
+    v(0.4em)
   } else if (doc-type == "report") {
     import "lib/pages/cover_report.typ": cover_page
 
@@ -562,6 +637,11 @@
     )
 
     exec_summary
+  }
+
+  // Add some top spacing on the first content page for report and document
+  if show-cover and (doc-type == "report" or doc-type == "document") {
+    v(2em)
   }
 
   body

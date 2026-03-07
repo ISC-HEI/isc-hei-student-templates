@@ -20,10 +20,10 @@
       place(
         top + right,
         dx: 0mm,
-        dy: -10mm,
+        dy: 3mm,
         clearance: 0em,
         // Put it in a box to be resized
-        box(width: 7.8cm, height: 2.0cm, logo),
+        box(width: 7.6cm, height: 2.0cm, logo),
       )
     }
   }
@@ -54,10 +54,16 @@
   ))
 
   // The date and optional version
-  text(1.1em, inc.custom-date-format(date, i18n("date-format"), language))
+  if date != none {
+    text(1.1em, inc.custom-date-format(date, i18n("date-format"), language))
+  }
   
   if revision != none {
-    text(1.1em, [ — v#revision])
+    if date != none {
+      text(1.1em, [ — v#revision])
+    } else {
+      text(1.1em, [v#revision])
+    }
   }
   
   v(2.4fr)
