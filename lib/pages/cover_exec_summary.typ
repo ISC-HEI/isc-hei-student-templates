@@ -13,7 +13,6 @@
   supervisors: "",
   expert: "Dr Grace Hopper", // Optional, use none if not needed
   academic-year: "2025-2026", // Optional, use none if not needed
-  is-executive-summary: true, // This is an executive summary, not a full thesis
   school: "Haute École d'Ingénierie de Sion",
   programme: "Informatique et Systèmes de communication (ISC)",
   keywords: ("engineering", "data", "machine learning", "meteorology"), // Some keywords related to your thesis

@@ -111,7 +111,7 @@ DataFlowX delivers significant benefits by enabling organizations to harness rea
   thesis-expert: "Dr Grace Hopper", // Optional, use none if not needed
   academic-year: "2025-2026", // Optional, use none if not needed
 
-  is-executive-summary: true, // This is an executive summary, not a full thesis  
+  doc-type: "exec-summary", // This is an executive summary, not a full thesis  
   
   school: "Haute École d'Ingénierie de Sion", 
   programme: "Informatique et Systèmes de communication (ISC)",

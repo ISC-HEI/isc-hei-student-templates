@@ -126,8 +126,10 @@
 // Generate the table of contents with a given depth
 #let table-of-contents(depth: 2) = {
   context {
-    let f = inc.global-language.get()
-    _make-outline(i18n(f, "toc-title"), depth: depth)
+    if inc.show-toc-enabled.get() {
+      let f = inc.global-language.get()
+      _make-outline(i18n(f, "toc-title"), depth: depth)
+    }
   }
 }
 
@@ -210,9 +212,13 @@
   subtitle: none,
   academic-year: [2025-2026],
   
-  // If it's a thesis
-  is-thesis: false,
+  // Document type: "report", "thesis", "document", "exec-summary"
+  doc-type: "report",  
   split-chapters: true,
+  show-cover: true,
+  show-toc: true,
+
+  // Bachelor thesis specific
   thesis-supervisor: [Thesis supervisor],
   thesis-co-supervisor: none,
   thesis-expert: "[Thesis expert]",
@@ -223,8 +229,7 @@
   school: [School name],
   programme: [Informatique et Systèmes de Communication],
   
-  // If it's executive summary
-  is-executive-summary: false,
+  // Executive summary specific
   summary: none,
   content: none,
   student-picture: none,
@@ -233,10 +238,10 @@
   bind: none,
   footer: none,
   
-  // If it's a report
-  course-name: [Course name],
-  course-supervisor: [Course supervisor],
-  semester: [Semester],
+  // Course report specific
+  course-name: none,
+  course-supervisor: none,
+  semester: none,
   cover-image: none,
   cover-image-height: 10cm,
   cover-image-caption: [KNN graph -- Inspired by _Marcus Volg_],
@@ -248,21 +253,26 @@
   date: none,
   logo: none,
   equations: false,
-  revision: none,
+  revision: none, // Like a version number
   language: "fr",
   extra-i18n: none,
   code-theme: "bluloco-light",
   body,
 ) = {
   
+  // Validate doc-type
+  let valid-doc-types = ("report", "thesis", "document", "exec-summary")
+  assert(doc-type in valid-doc-types, message: "Invalid doc-type '" + doc-type + "'. Must be one of: " + valid-doc-types.join(", "))
+  
   // Update state with the passed values so they are accessible globally
   inc.global-keywords.update(keywords)
   inc.global-language.update(language)
+  inc.show-toc-enabled.update(show-toc)
 
   if(project-repos != none) {
     inc.global-project-repos.update(project-repos)
   }else{
-    if(is-thesis) {panic("No project repository provided, you need to provide one!")}
+    if(doc-type == "thesis") {panic("No project repository provided, you need to provide one!")}
   }
 
   let i18n = i18n.with(extra-i18n: extra-i18n, language)
@@ -303,16 +313,16 @@
   set page(
     margin: (inside: 2.5cm, outside: 1.5cm, bottom: 2.1cm, top: 2cm), // Binding inside
     paper: "a4",
-  ) if(is-thesis)  
+  ) if(doc-type == "thesis")  
 
-  // Report specific settings
+  // Report and document specific settings
   set page(
     margin: (inside: 2.5cm, outside: 2cm, y: 2.1cm), // Binding inside
     paper: "a4",    
-  ) if(not is-executive-summary and not is-thesis)
+  ) if(doc-type == "report" or doc-type == "document")
 
-  if (not is-thesis) {
-    // For reports, we want to put the header and footer on all pages
+  if (doc-type != "thesis") {
+    // For reports and documents, we want to put the header and footer on all pages
     set-header-footer(true)
   } else {
     // For theses, we want to put the header and footer only on the first page
@@ -322,7 +332,7 @@
   show heading: it => {
     // In a thesis, put chapters begin on odd pages
     // Add the header in a block to make space around it
-    if it.level == 1 and is-thesis and split-chapters {      
+    if it.level == 1 and doc-type == "thesis" and split-chapters {      
       pagebreak(weak: true)    
       inc.blank-page.update(true)
       pagebreak(to: "odd", weak: true)  
@@ -396,8 +406,7 @@
   show link: set text(ligatures: true, fill: blue)
 
   // Sections numbers
-  set heading(numbering: "1.1.1 –") if (is-thesis)
-  set heading(numbering: "1.1.1 –") if (not is-thesis)
+  set heading(numbering: "1.1.1 –")
 
   /////////////////////////////////////////////////
   // Handle specific captions styling
@@ -450,7 +459,9 @@
   /////////////////////////////////////////////////
   // Cover pages
   /////////////////////////////////////////////////
-  if (not is-thesis and not is-executive-summary) {
+  if not show-cover {
+    // Skip cover page entirely
+  } else if (doc-type == "report") {
     import "lib/pages/cover_report.typ": cover_page
 
     let report_cover = cover_page(
@@ -473,7 +484,22 @@
     )
 
     report_cover
-  } else if is-thesis {
+  } else if doc-type == "document" {
+    import "lib/pages/cover_document.typ": cover_page
+
+    let document_cover = cover_page(
+      font: sans-font,
+      title: title,
+      subtitle: subtitle,
+      authors: authors,
+      date: date,
+      revision: revision,
+      logo: logo,
+      language: language,
+    )
+
+    document_cover
+  } else if doc-type == "thesis" {
     import "lib/pages/cover_bachelor.typ": cover_page
 
     let supervisors = ()
@@ -504,7 +530,7 @@
     )
 
     thesis_cover
-  } else if is-executive-summary {
+  } else if doc-type == "exec-summary" {
     import "lib/pages/cover_exec_summary.typ": cover_page
 
     let supervisors = ()

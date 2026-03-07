@@ -1,22 +1,14 @@
-// Fancy pretty print with line numbers and stuff
+// Simple document cover page — no course info, no cover image
 #import "../includes.typ" as inc
 #import "/isc_templates.typ" as isc
 
 #let cover_page(
-  course-supervisor: "",
-  course-name: "",
   font: "",
   title: "",
   subtitle: none,
-  semester: "",
-  academic-year: "",
-  cover-image: "",
-  cover-image-height: "",
-  cover-image-caption: "",
-  cover-image-kind: "",
-  cover-image-supplement: "",
   authors: "",
   date: "",
+  revision: none,
   logo: none,
   language: "",
 ) = {
@@ -39,32 +31,6 @@
   // Title page
   insert-logo(logo)
 
-  let title-block = [
-    #course-supervisor\
-    #semester #academic-year
-  ]
-
-  let title-block-content = title-block
-
-  place(top + left, dy: -2em, text(1em)[
-    #text(weight: 700, course-name)\
-    #text(title-block-content)
-  ])
-
-  v(10fr, weak: true)
-
-  // Puts a default cover image
-  if cover-image != none {
-    show figure.caption: emph
-    figure(
-      box(cover-image, height: cover-image-height),
-      caption: cover-image-caption,
-      numbering: none,
-      kind: cover-image-kind,
-      supplement: cover-image-supplement,
-    )
-  }
-
   v(10fr, weak: true)
 
   // Main title
@@ -77,19 +43,23 @@
   text(font: font, 1.2em, subtitle)
   line(length: 100%)
 
-  v(4em)
+  v(12em)
 
   // Author information on the title page
   pad(top: 1em, right: 20%, grid(
     columns: 3,
     column-gutter: 3em,
     gutter: 2em,
-    ..authors.map(author => align(start, text(1.1em, strong(author)))),
+    ..authors.map(author => align(start, text(1.2em, strong(author)))),
   ))
 
-  // The date
+  // The date and optional version
   text(1.1em, inc.custom-date-format(date, i18n("date-format"), language))
-
+  
+  if revision != none {
+    text(1.1em, [ — v#revision])
+  }
+  
   v(2.4fr)
   pagebreak()
 }

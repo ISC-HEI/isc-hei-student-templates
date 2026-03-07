@@ -11,4 +11,5 @@
 #let global-keywords = state("kw", ())
 #let header-footers-enabled = state("hf-en", false)
 #let global-project-repos = state("repos", none)
-#let blank-page = state("blank-page", false) 
+#let blank-page = state("blank-page", false)
+#let show-toc-enabled = state("show-toc", true)

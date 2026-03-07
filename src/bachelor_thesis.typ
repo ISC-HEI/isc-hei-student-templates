@@ -23,7 +23,7 @@
 
   date: datetime(year: 2025, month: 6, day: 30), // or datetime.today() 
 
-  is-thesis: true,
+  doc-type: "thesis",
   split-chapters: true,
   revision: "1.0", // Or for instance "1.0", for the version of your thesis  
   code-theme: "bluloco-light", // See directory themes/ for available themes

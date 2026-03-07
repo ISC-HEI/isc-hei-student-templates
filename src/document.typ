@@ -3,26 +3,28 @@
 #let doc_language = "fr" // Valid values are en, fr
 
 #show: project.with(
+  doc-type: "document",
+  show-cover: true,
+  show-toc: false,
+
   title: "A simple document",
   subtitle: [Typeset with `Typst`],
-  authors: ("A. Lovelace", "B. Liskov", "N. Wirth",),  
-  date: datetime(year: 2026, month: 3, day: 24), // or datetime.today()
-  language: doc_language, // Please change the value above if required
+  authors: ("A. Lovelace", "Prof. B. Liskov", "Prof. N. Wirth",),    
   
+  date: datetime(year: 2026, month: 3, day: 24), // or datetime.today()
+  revision: "1.0",
+  language: doc_language, // Please change the value above if required  
   logo: image("figs/isc_logo.svg"),
   
   code-theme: "bluloco-light", // See directory themes/ for available themes
 )
-
-//// If using acronyms
-#import "@preview/acrostiche:0.7.0": *
-#include "acronyms.typ"
 
 // Let's get started folks!
 
 #table-of-contents(depth: 1)
 
 = Introduction
+
 Écrire un rapport est un exercice autant *de fond que de forme*. Dans ce contexte, nous proposons dans ce document de quoi simplifier la rédaction de la forme sans avoir -- à priori -- d'avis sur le fond, ceci dans le contexte de la filière ISC#footnote[Voici d'ailleurs comment mettre une note de bas de page https://isc.hevs.ch].
 
 Il convient tout d'abord pour présenter le contenu de se rendre compte que ce système de mise en page permet d'utiliser une forme de _markdown_ comme entrée. Le _markdown_ est une manière de formatter des fichiers textes afin de pouvoir les transformer avec un programme afin de les afficher dans différents formats, comme PDF ou encore sous forme de page web.
@@ -167,7 +169,7 @@ Des tables plus compliquées sont également possible. La page https://typst.app
 ), caption: [Une table plus complexe])
 
 == Citer ses sources
-Il est important de citer les sources que l'on utilise. Par exemple, les deux travaux @mui_nasa_dod09, @mui_hybrid_06 et @mudry:133438 sont deux papiers très intéressants à lire et dont les références complètes se trouvent dans la bibliographie à la fin de ce document. Il est également d'utiliser des acronymes comme par exemple #acr("USB"). Si on l'utilise une deuxième fois, seul l'acronyme apparaît, ainsi #acr("USB") est suffisant.
+Il est important de citer les sources que l'on utilise. Par exemple, les deux travaux @mui_nasa_dod09, @mui_hybrid_06 et @mudry:133438 sont deux papiers très intéressants à lire et dont les références complètes se trouvent dans la bibliographie à la fin de ce document. 
 
 Si l'on souhaite citer des références issues d'une page ou d'un site web et que cette référence est importante, on utilisera la syntaxe @WinNT qui cite une référence de la bibliographie. Pour les autres cas, il est possible de référer au site uniquement avec son URL.
 
@@ -200,43 +202,5 @@ $ S = sqrt(S_x^2+S_y^2) = sqrt(109^2+185^2) =214.47 $
 #pagebreak()
 #the-bibliography(bib-file: "bibliography.bib", full: true, style: "ieee")
 
-//////////////
-// Appendices
-//////////////
-#pagebreak()
-#appendix-page()
-#pagebreak()
-
-// Table of acronyms, NOT COMPULSORY
-#print-index(
-  title: heavy-title(i18n(doc_language, "acronym-table-title"), mult:1, top:1em, bottom: 1em),
-  sorted: "up",
-  delimiter: " : ",
-  row-gutter: 0.7em,
-  outlined: false,
-)
-
-#pagebreak()
-
-// Table of listings
-#table-of-figures()
-
-// Code inclusion
-#pagebreak()
-#code-samples()
-
-#let code_sample = read("code/sample.scala")
-
-#figure(code()[
-  #raw(code_sample, lang: "scala")
-], caption: "Code included from the file example.scala")
-
-#figure(code()[
-  #raw(code_sample, lang: "scala")
-], caption: "Code included from the file example.scala")
-
-#figure(code()[
-  #raw(read("code/sort.py"), lang: "python")
-], caption: "Code included from the file sort.py")
 
 // This is the end !
