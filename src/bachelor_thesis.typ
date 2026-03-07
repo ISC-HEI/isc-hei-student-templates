@@ -1,4 +1,4 @@
-#import "@preview/isc-hei-bthesis:0.6.0" : *
+#import "@preview/isc-hei-bthesis:0.7.0" : *
 
 #let doc_language = "en" // Valid values are en, fr
 
@@ -30,7 +30,7 @@
 ) 
 
 // // If using acronyms 
-#import "@preview/acrostiche:0.6.0": *     
+#import "@preview/acrostiche:0.7.0": *     
 #include "acronyms.typ"
 
 // Let's get started folks!

@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -eu
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)"
+source "$SCRIPT_DIR/test_helpers.sh"
+
+PACKAGE_VERSION="$(typst_template_version "bachelor-thesis")"
+
 echo "Removing tmp/isc-hei-bthesis if it exists..."
 if rm -r tmp/isc-hei-bthesis 2>/dev/null; then
 	echo "Removed tmp/isc-hei-bthesis successfully or it did not exist."
@@ -17,7 +22,7 @@ else
 fi
 
 cd tmp
-typst init @preview/isc-hei-bthesis:0.6.0
+typst init "@preview/isc-hei-bthesis:${PACKAGE_VERSION}"
 cd isc-hei-bthesis
 echo "Compiling bachelor thesis..."
 typst compile bachelor_thesis.typ

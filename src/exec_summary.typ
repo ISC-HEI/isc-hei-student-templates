@@ -1,6 +1,6 @@
 // Adapted from the BFH year book idea at https://www.bfh.ch/dam/jcr:e512ae31-a3ed-4b65-b589-870383d794b0/abschlussarbeiten-bsc-informatik.pdf
 
-#import "@preview/isc-hei-exec-summary:0.6.0" : *
+#import "@preview/isc-hei-exec-summary:0.7.0" : *
 
 #let doc_language = "en" // Valid values are en, fr
 
@@ -100,7 +100,7 @@ DataFlowX delivers significant benefits by enabling organizations to harness rea
   language: doc_language, // Modify global if required, see above
   authors: "Stormy Peters", 
   student-picture: image("figs/random_image.png"), // [Optional], put none if not used
-  permanent-email: "john.doe@example.com", // [Optional], put none if not used. Do not use hevs address!
+  permanent-email: "stormy.peters@example.com", // [Optional], put none if not used. Prefer a long term viable address!
   video-url: "https://isc.hevs.ch", // A link to the video of you project, or none
 
   summary: summary, // Not to be changed

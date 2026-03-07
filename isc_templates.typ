@@ -144,7 +144,7 @@
   }
 }
 
-// Genereate the proper header for the code samples appendix
+// Generate the proper header for the code samples appendix
 #let code-samples() = {  
   context{
     heading(
@@ -208,7 +208,8 @@
 #let project(
   title: [Report title],
   subtitle: none,
-  academic-year: [2024-2025],
+  academic-year: [2025-2026],
+  
   // If it's a thesis
   is-thesis: false,
   split-chapters: true,
@@ -221,6 +222,7 @@
   major: (),
   school: [School name],
   programme: [Informatique et Systèmes de Communication],
+  
   // If it's executive summary
   is-executive-summary: false,
   summary: none,
@@ -230,6 +232,7 @@
   video-url: none,
   bind: none,
   footer: none,
+  
   // If it's a report
   course-name: [Course name],
   course-supervisor: [Course supervisor],
@@ -239,6 +242,7 @@
   cover-image-caption: [KNN graph -- Inspired by _Marcus Volg_],
   cover-image-kind: auto,
   cover-image-supplement: auto,
+  
   // A list of authors, separated by commas
   authors: (),
   date: none,

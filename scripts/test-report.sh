@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -eu
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)"
+source "$SCRIPT_DIR/test_helpers.sh"
+
+PACKAGE_VERSION="$(typst_template_version "report")"
+
 echo "Removing tmp/isc-hei-report if it exists..."
 if rm -r tmp/isc-hei-report 2>/dev/null; then
   echo "Removed tmp/isc-hei-report successfully or it did not exist."
@@ -17,7 +22,7 @@ else
 fi
 
 cd tmp
-typst init @preview/isc-hei-report:0.5.2
+typst init "@preview/isc-hei-report:${PACKAGE_VERSION}"
 cd isc-hei-report
 typst compile report.typ
 cd ..
