@@ -27,14 +27,10 @@ For the sake of simplicity from a developer's perspective, there's a single repo
 To develop new features in the template, a symlink to the preview directory (of either the bachelor thesis or the report) can be created using:
 
 ```bash
-just install-symblink-bthesis
-
-OR
-
-just install-symblink-report
+just install-symblink
 ```
 
-Once done, you can work on one of the document and compile it with
+Once done, you can work on any of the document and compile it with
 
 ```bash
 typst watch bachelor_thesis.typ
@@ -49,18 +45,18 @@ When sufficiently confident that it seems to work, it's time to test a `preview`
 To deploy locally for `typst` command-line
 
 ```bash
-just uninstall-preview pack_distro_preview
+just pack_distro_preview
 ```
 
-This creates both `report` and `bachelor-thesis` packages for testing conveniently from the preview directory. The templates can be tested as needed by creating a local sample using:
+This creates all the packages for testing conveniently from the preview directory. The templates can be tested as needed by creating a local sample using:
 
 ```bash
-typst init @preview/isc-hei-report:0.3.1
+typst init @preview/isc-hei-report:0.7.0
 ```
 
 Then go the directory, try to compile with `typst watch report.typ`.
 
-For convenience, `scripts/test-report.sh`, `scripts/test-execsummary.sh` and `scripts/test-thesis.sh` enable to quickly check for errors before deploying to the universe.
+For convenience, `just test_all` tries to compile every package using the local preview. It allows a quick check for errors before deploying to the universe.
 
 ## Deploying to Typst universe
 
@@ -80,13 +76,10 @@ git checkout main
 git reset --hard upstream/main
 git push origin main --force
 ```
-
-Cacaprout
-
 ### Image quantization
 
 To reduce the size of images, which is nice for reducing the template size on the Universe.
 
 ```bash
-pngquant --quality 10-80 *.png --ext .png --force
+pngquant --quality 50-80 *.png --ext .png --force
 ```
