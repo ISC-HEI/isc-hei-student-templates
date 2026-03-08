@@ -216,7 +216,7 @@ $ S = sqrt(S_x^2+S_y^2) = sqrt(109^2+185^2) =214.47 $
 
 // Table of acronyms, NOT COMPULSORY
 #print-index(
-  title: heavy-title(i18n(doc_language, "acronym-table-title"), mult:1, top:1em, bottom: 1em),
+  title: page-title(i18n(doc_language, "acronym-table-title"), mult:1, top:1em, bottom: 1em),
   sorted: "up",
   delimiter: " : ",
   row-gutter: 0.7em,

@@ -1,9 +1,9 @@
 #import "@preview/isc-hei-bthesis:0.7.0" : *
 
-#let doc_language = "en" // Valid values are en, fr
+#let doc_language = "fr" // Valid values are en, fr
 
 #show: project.with( 
-  title: "LTFM\nLife, the Universe, and Everything", // Your thesis title
+  title: "Life, the Universe, and Everything", // Your thesis title
   subtitle: "An exploration of the intersection between computer science and engineering, focusing on their impact on modern technological advancements.", // Optional, use none if not needed
   authors: "James Gosling", 
   language: doc_language, // must be defined globally, see above
@@ -34,6 +34,13 @@
 #include "acronyms.typ"
 
 // Let's get started folks!
+
+// The TB assignment sheet is a separate document filled in by the professor.
+// Once compiled to PDF, include it here by uncommenting the lines below and
+// placing the compiled PDF at pages/tb_assignment.pdf.
+//
+// #cleardoublepage()
+// #image("pages/tb_assignment.pdf")
 
 #cleardoublepage()
 #include "pages/abstract.typ"
@@ -97,7 +104,25 @@ Have fun #todo[writing your thesis!] and good luck with it !
 
 #lorem-pars(600)
 
-= Development and Methodology
+= Development and Methodology 1
+#lorem-pars(1500)
+
+= Development and Methodology 2
+#lorem-pars(1500)
+
+= Development and Methodology 3
+#lorem-pars(1500)
+
+= Development and Methodology 4
+#lorem-pars(1500)
+
+= Development and Methodology 5
+#lorem-pars(1500)
+
+= Development and Methodology 6
+#lorem-pars(1500)
+
+= Development and Methodology 7
 #lorem-pars(1500)
 
 = Results and Discussion
@@ -123,7 +148,7 @@ Have fun #todo[writing your thesis!] and good luck with it !
 
 // Table of acronyms, NOT COMPULSORY
 #print-index(
-  title: heavy-title(i18n(doc_language, "acronym-table-title"), mult:1, top:1em, bottom: 1em),
+  title: page-title(i18n(doc_language, "acronym-table-title"), mult:1, top:1em, bottom: 1em),
   sorted: "up",
   delimiter: " : ",
   row-gutter: 0.7em,

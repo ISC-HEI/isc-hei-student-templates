@@ -9,82 +9,132 @@
 #let space-after-heading = 0.8em
 #let chapter-font-size = 1.5em
 #let chapter-font-weight = 700
+
+#let body-font-size = 11pt
+
 #let global-keywords = inc.global-keywords
 #let version = "0.7.0"
 
 //////////////////////////
 // User callable functions
 // //////////////////////////
-#let heavy-title(title, mult: 1.5, bottom: 2pt, top: 4em) = {
+#let page-title(title, mult: 1.5, bottom: 2pt, top: 4em) = {
   set text(size: chapter-font-size * mult, weight: chapter-font-weight)
   block(fill: none, inset: (x: 0pt, bottom: bottom, top: top), below: space-after-heading * mult, {
     title
   })
 }
 
-// Draw a decorative rule under a chapter heading.
-// The decoration pattern cycles with each numbered chapter.
+// Draws a decorative horizontal rule below a chapter heading.
+// Ornaments cycle automatically by chapter number.
 //
-// decorations — array of patterns, one entry consumed per chapter (cycling).
-//   Each pattern is an array of shape dicts: (shape:, filled:)
-//     shape:  "square" | "circle" | "diamond"
-//     filled: true  → shape filled with hei-purple
-//             false → white interior, hei-purple border
-//   Multiple dicts in one pattern draw multiple shapes, left-to-right, at the right end.
-// enabled — set to false to draw only the plain line with no shape ornaments.
+// Each entry in `decorations` is an array of shape dicts with keys:
+//   shape:  "square"|"circle"|"diamond"|"triangle-up"|"triangle-down"|"cross"|"pentagon"
+//   filled: true → hei-purple fill / false → white fill, hei-purple border
+//   scale:  (optional) size multiplier, e.g. 0.6 for a smaller ornament
+//   angle:  (optional) clockwise rotation in degrees (useful for square, diamond, cross)
+//
+// Set `enabled: false` to draw only the plain line.
+// Pass `chapter: counter(heading).get().first()` from the enclosing context — do not set manually.
+//
+// Example:
+//   context chapter-rule(chapter: counter(heading).get().first())
+//   context chapter-rule(chapter: counter(heading).get().first(), decorations: (
+//     ((shape: "cross", filled: false, scale: 0.6, angle: 45), (shape: "square", filled: true)),
+//   ))
 #let chapter-rule(
   decorations: (
-    ((shape: "square",  filled: false),),
-    ((shape: "circle",  filled: true),),
-    ((shape: "square",  filled: true),),
-    ((shape: "diamond", filled: false),),
-    ((shape: "circle",  filled: true),),
-    ((shape: "diamond", filled: false), (shape: "square", filled: true)),
+    // — single shapes —
+    ((shape: "square",   filled: false, scale: 0.4, angle: 45),  (shape: "circle",      filled: true)),
+    ((shape: "square",        filled: false),),
+    ((shape: "pentagon",      filled: true),),
+    ((shape: "cross",    filled: true,  scale: 0.6, angle: 0),  (shape: "square",      filled: false)),
+    ((shape: "diamond",  filled: false, scale: 0.4, angle: 0),  (shape: "diamond",     filled: true)),
+    ((shape: "circle",        filled: true),),
+    ((shape: "square",   filled: true,  scale: 0.5, angle: 45),  (shape: "pentagon",    filled: false)),
+    ((shape: "circle",        filled: false),),
+
+    ((shape: "square",        filled: true),),
+    ((shape: "diamond",  filled: false),),
+    ((shape: "diamond",  filled: true,  scale: 0.6, angle: 12),  (shape: "circle",      filled: false)),
+    ((shape: "pentagon",      filled: false), (shape: "square",  filled: true)),
+    ((shape: "diamond", filled: false, scale: 0.55, angle: 15),
+     (shape: "circle",  filled: true,  scale: 0.75),
+     (shape: "square",  filled: false)),
+    ((shape: "cross",   filled: false, scale: 0.55, angle: 45),
+     (shape: "diamond", filled: true,  scale: 0.75),
+     (shape: "circle",  filled: false)),
   ),
   enabled: true,
   chapter: 1,
 ) = {
   let color = inc.hei-purple
-  let sz    = 10pt
-  let gap   = 3pt
+  let sz    = 10pt   // base slot size; shapes may be smaller via `scale`
+  let gap   = 12pt    // gap between adjacent ornament slots
   let thick = 1pt
 
-  v(-0.4em)
+  // Build a single ornament of effective size `e` as renderable content.
+  // Rotation (if any) is applied around the shape's centre before returning.
+  let draw-ornament(spec, e) = {
+    let fc  = if spec.filled { color } else { white }
+    let ang = if "angle" in spec { spec.angle } else { 0 }
+
+    let body = if spec.shape == "square" {
+      rect(width: e, height: e, fill: fc, stroke: color)
+
+    } else if spec.shape == "circle" {
+      ellipse(width: e, height: e, fill: fc, stroke: color)
+
+    } else if spec.shape == "diamond" {
+      polygon(fill: fc, stroke: color,
+        (e / 2, 0pt), (e, e / 2), (e / 2, e), (0pt, e / 2))
+
+    } else if spec.shape == "cross" {
+      // Two overlapping bars inside a bounding box; rotating 45° gives an ×
+      let bar = e / 3
+      box(width: e, height: e, {
+        place(dy: (e - bar) / 2, rect(width: e,   height: bar, fill: fc, stroke: color))
+        place(dx: (e - bar) / 2, rect(width: bar, height: e,   fill: fc, stroke: color))
+      })
+
+    } else if spec.shape == "pentagon" {
+      let r   = e / 2
+      let pts = range(5).map(k => {
+        let a = (270 + 72 * k) * calc.pi / 180
+        (r + r * calc.cos(a), r + r * calc.sin(a))
+      })
+      polygon(fill: fc, stroke: color, ..pts)
+    }
+
+    // Rotate around the ornament's centre (preserves bounding box for layout)
+    if ang != 0 { rotate(ang * 1deg, origin: center + horizon, body) } else { body }
+  }
+
+  // Distance between heading text and line
+  v(-0.2em)
 
   layout(size => {
-      // Horizontal rule
-      place(line(length: size.width, stroke: (thickness: thick, paint: black)))
+    // Full-width horizontal rule
+    place(line(length: size.width, stroke: (thickness: thick, paint: black)))
 
-      if enabled and decorations.len() > 0 {
-        let pattern = decorations.at(calc.rem(chapter - 1, decorations.len()))
-        let n = pattern.len()
+    if enabled and decorations.len() > 0 {
+      // Pick the pattern for this chapter, cycling when chapter > len
+      let pattern = decorations.at(calc.rem(chapter - 1, decorations.len()))
+      let n = pattern.len()
 
-        // pattern is ordered left-to-right; last entry is rightmost
-        for (i, spec) in pattern.enumerate() {
-          let fill-color = if spec.filled { color } else { white }
-          let x = size.width - sz - (sz + gap) * (n - 1 - i)
-
-          if spec.shape == "square" {
-            place(dx: x, dy: -sz / 2,
-              rect(width: sz, height: sz, fill: fill-color, stroke: color))
-          } else if spec.shape == "circle" {
-            place(dx: x, dy: -sz / 2,
-              ellipse(width: sz, height: sz, fill: fill-color, stroke: color))
-          } else if spec.shape == "diamond" {
-            place(dx: x, dy: -sz / 2,
-              polygon(
-                fill: fill-color, stroke: color,
-                (sz / 2, 0pt),
-                (sz,     sz / 2),
-                (sz / 2, sz),
-                (0pt,    sz / 2),
-              ))
-          }
-        }
+      // Draw each ornament; array is left-to-right, last entry is rightmost
+      for (i, spec) in pattern.enumerate() {
+        let s      = if "scale" in spec { spec.scale } else { 1.0 }
+        let e      = sz * s                           // effective size
+        let slot-x = size.width - sz - (sz + gap) * (n - 1 - i)
+        let x      = slot-x + (sz - e) / 2           // center in slot
+        place(dx: x, dy: -e / 2, draw-ornament(spec, e))
       }
+    }
 
-      v(1em)
-    })
+    // Space below the line
+    v(1em)
+  })
 }
 
 // Enable the display of headers and footers
@@ -204,7 +254,7 @@
   context {
     let f = inc.global-language.get()
     outline(
-      title: heavy-title(i18n(f, "figure-table-title"), mult: 1, top: 1em, bottom: 1em),
+      title: page-title(i18n(f, "figure-table-title"), mult: 1, top: 1em, bottom: 1em),
       depth: 1,
       indent: auto,
       target: figure.where(kind: image),
@@ -221,7 +271,7 @@
       outlined: false,
       bookmarked: false,
       text(
-        heavy-title(i18n(inc.global-language.get(), "appendix-code-name"), mult: 1, top: 1em, bottom: 1em)),
+        page-title(i18n(inc.global-language.get(), "appendix-code-name"), mult: 1, top: 1em, bottom: 1em)),
     )
   }  
 }
@@ -235,7 +285,7 @@
     let title = i18n(inc.global-language.get(), "bibliography-title")    
     show heading: none
     heading(bookmarked: true, numbering: none, outlined: true)[#title]
-    heavy-title(title, mult: 1, top: 0.5em, bottom: 0.3em)    
+    page-title(title, mult: 1, top: 0.5em, bottom: 0.3em)    
     bibliography("src/" + bib-file, full: full, style: style, title:none)
   }
 }
@@ -337,7 +387,7 @@
   summary: none,
   content: none,
   student-picture: none,
-  permanent-email: "john@doe.com",
+  permanent-email: "stormy.peters@example.com",
   video-url: none,
   bind: none,
   footer: none,
@@ -397,7 +447,7 @@
   let math-font = ("Asana Math", "Fira Math")
 
   // Default body font
-  set text(font: body-font, lang: language)
+  set text(font: body-font, lang: language, size: body-font-size)
 
   // Set other fonts
   // show math.equation: set text(font: math-font) // For math equations
@@ -453,7 +503,7 @@
       pagebreak(to: "odd", weak: true)  
       inc.blank-page.update(false)
       
-      block(fill: none, inset: (x: 0pt, bottom: space-after-heading, top: 4em), below: 0pt, {
+      block(fill: none, inset: (x: 0pt, bottom: space-after-heading, top: 6.5em), below: 0pt, {
         // If the heading has a numbering, display it
         if (it.numbering != none) {
           text(i18n("chapter-title") + " " + counter(heading).display() + " " + it.body, size: chapter-font-size, weight: chapter-font-weight)        

@@ -1,6 +1,6 @@
 #import "@preview/isc-hei-bthesis:0.7.0" : *
 
-#heavy-title("Résumé")
+#page-title("Résumé")
 
 #v(1fr)
 

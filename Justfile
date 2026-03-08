@@ -34,12 +34,16 @@ install-symblink-bthesis: (symblink "@preview" "bachelor-thesis")
 # create symblink for executive summary
 install-symblink-exec-summary: (symblink "@preview" "exec-summary")
 
+# create symblink for TB assignment sheet
+install-symblink-tb-assignment: (symblink "@preview" "tb-assignment")
+
 [private]
 remove target:
   ./scripts/uninstall "{{target}}" "bachelor-thesis"
   ./scripts/uninstall "{{target}}" "report"
   ./scripts/uninstall "{{target}}" "document"
   ./scripts/uninstall "{{target}}" "exec-summary"
+  ./scripts/uninstall "{{target}}" "tb-assignment"
 
 # uninstalls the library from the "@local" prefix
 # uninstall: (remove "@local")
@@ -53,6 +57,7 @@ pack_distro target:
   ./scripts/pack "{{target}}" "report"
   ./scripts/pack "{{target}}" "document"
   ./scripts/pack "{{target}}" "exec-summary"
+  ./scripts/pack "{{target}}" "tb-assignment"
 
 # packs documents into different directories, for previewing and local testing
 pack_distro_preview : (pack_distro "@preview")
@@ -63,4 +68,5 @@ generate_thumbs:
   convert -density 150 'examples/report.pdf[0]' -flatten report_thumb.png
   convert -density 150 'examples/report.pdf[0]' -flatten document_thumb.png
   convert -density 150 'examples/exec_summary.pdf[0]' -flatten exec_summary.png
+  convert -density 150 'examples/tb_assignment.pdf[0]' -flatten tb_assignment_thumb.png
   pngquant --quality 10-80 *.png --ext .png --force
