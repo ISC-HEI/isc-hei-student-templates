@@ -4,7 +4,7 @@
   doc-type: "document",
   show-cover: false,
   show-toc: false, // Set to true if you want a table of contents, or 1, 2, 3... for a specific depth
-  fancy-line: false,  
+  fancy-line: true,  
 
   title: "A simple template for ISC documents",
   subtitle: [Typeset with `Typst`],

@@ -11,7 +11,7 @@
   thesis-supervisor: "Prof. Dr John von Neumann", 
   thesis-co-supervisor: "Lady Ada Lovelace", // Optional, use none if not needed
   thesis-expert: "Dr Grace Hopper", // Optional, use none if not needed
-  thesis-id: "ISC-ID-25-1", // Your thesis ID (from the official project description)
+  thesis-id: "ISC-ID-26-1", // Your thesis ID (from the official project description)
   project-repos: "https://isc.hevs.ch", // Your project git repository.
 
   school: "Haute École d'Ingénierie de Sion", 
