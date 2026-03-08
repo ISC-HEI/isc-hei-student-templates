@@ -2,7 +2,7 @@
 set -eu
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)"
-source "$SCRIPT_DIR/test_helpers.sh"
+source "$SCRIPT_DIR/test-helpers.sh"
 
 PACKAGE_VERSION="$(typst_template_version "report")"
 

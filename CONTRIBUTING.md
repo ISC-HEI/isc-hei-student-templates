@@ -90,12 +90,3 @@ To reduce the size of images, which is nice for reducing the template size on th
 ```bash
 pngquant --quality 10-80 *.png --ext .png --force
 ```
-
-## Creating a new document style from common style
-
-- Create a new directory under `templates` and adapt from other samples there
-- 
-
-- TODO:
-    - create document_thumb.png
-    - check other document types with compiler set to 0.14.2

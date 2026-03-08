@@ -37,9 +37,6 @@ remove target:
 # uninstalls the library from the "@local" prefix
 # uninstall: (remove "@local")
 
-# uninstalls the library from the "@preview" prefix (for pre-release testing)
-uninstall: (remove "@preview")
-
 # packs the library into the specified destination folders (report, bachelor and exec summary)
 pack_distro target:  
   ./scripts/pack "{{target}}" "bachelor-thesis"
@@ -50,6 +47,18 @@ pack_distro target:
 
 # packs documents into different directories, for previewing and local testing
 pack_distro_preview : (pack_distro "@preview")
+
+# compiles all documents from src/ into examples/ (in parallel)
+compile_all:
+  typst compile src/bachelor_thesis.typ examples/bachelor_thesis.pdf &
+  typst compile src/report.typ examples/report.pdf &
+  typst compile src/document.typ examples/document.pdf &
+  typst compile src/exec_summary.typ examples/exec_summary.pdf &
+  typst compile src/tb_assignment.typ examples/tb_assignment.pdf &
+  wait
+
+# uninstalls the library from the "@preview" prefix (for pre-release testing)
+uninstall: (remove "@preview")
 
 # creates the thumbnails from the examples
 generate_thumbs:

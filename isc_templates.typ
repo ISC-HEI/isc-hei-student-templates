@@ -431,7 +431,7 @@
   inc.global-language.update(language)
 
   // Normalize show-toc: true -> 2, false -> 0, int -> int
-  let toc-depth = if doc-type == "tb-assignment" { 0 } else if show-toc == false { 0 } else if show-toc == true { 2 } else { int(show-toc) }
+  let toc-depth = if doc-type == "tb-assignment" or doc-type == "exec-summary" { 0 } else if show-toc == false { 0 } else if show-toc == true { 2 } else { int(show-toc) }
   inc.show-toc-enabled.update(toc-depth > 0)
 
   if(project-repos != none) {
@@ -845,5 +845,8 @@
     table-of-contents(depth: toc-depth)
   }
 
-  body
+  // Exec-summary is self-contained (single page); skip body to avoid a blank second page
+  if doc-type != "exec-summary" {
+    body
+  }
 }
