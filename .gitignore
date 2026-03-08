@@ -9,6 +9,7 @@ src/tb_assignment.pdf
 src/fonts/modern-isc-fonts
 lib/**/*.pdf
 scripts/tmp
+tmp/
 test
 
 # Ignore macOS system files

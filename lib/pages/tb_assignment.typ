@@ -3,6 +3,7 @@
 
 // Locale-aware date formatting via datify
 #import "@preview/datify:0.1.4": custom-date-format
+#import "../includes.typ" as inc
 
 // Date format patterns per language (matches i18n.json)
 #let _date-formats = (
@@ -207,7 +208,7 @@
   extra-info:           none,
 
   // Document metadata
-  version: "1.0",
+  doc-version: none,
   language: "fr",
 ) = {
 
@@ -219,7 +220,7 @@
   // ── Style constants ────────────────────────────────────────────────────
   let _fill   = luma(235)
   let _ci     = (x: 6pt, y: 5pt)
-  let _purple = rgb("#E20571")
+  let _purple = inc.hei-purple
   let _stroke = 0.5pt + luma(160)
 
   let _lbl(body, ..args) = table.cell(
@@ -283,6 +284,13 @@
   let _m = _resolve(mandant, _t.industrie, _t.etablissement)
   let _l = _resolve(lieu, _t.industrie, _t.etablissement)
 
+  place(
+    top + right,
+    dx: 0mm,
+    dy: 1mm,
+    text(size: 8pt, fill: luma(120))[FO 1.2.02.07.FB \ che/13.03.2024],
+  )
+
   // Table 1 — informations générales
   table(
     columns: (1fr, 1fr, 1fr),
@@ -312,14 +320,14 @@
       #_checkbox(confidential) #_t.yes #h(1em)
       #_checkbox(not confidential) #_t.no
     ],
-    _val[#supervisor],
-    _val[#{ if co-supervisor != none { co-supervisor } else { sym.dash.em } }],
+    _val(align: horizon)[#supervisor],
+    _val(align: horizon)[#{ if co-supervisor != none { co-supervisor } else { sym.dash.em } }],
 
     // Row 7 — Date et version (single row: label col 1, values cols 2-3)
     _lbl[#_t.date-version],
     table.cell(fill: white, inset: _ci, colspan: 2)[
       #set text(size: 9pt)
-      #_fmtdate(datetime.today()) - Version #version
+      #_fmtdate(datetime.today()) - Version #doc-version
     ],
   )
 

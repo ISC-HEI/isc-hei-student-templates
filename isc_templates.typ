@@ -13,7 +13,7 @@
 #let body-font-size = 11pt
 
 #let global-keywords = inc.global-keywords
-#let version = "0.7.0"
+#let version = toml("typst.toml").package.version
 
 //////////////////////////
 // User callable functions
@@ -458,8 +458,10 @@
 
   // Set other fonts
   // show math.equation: set text(font: math-font) // For math equations
-  let selected-theme = "src/themes/" + code-theme + ".tmTheme"
-  set raw(theme: selected-theme)
+  if doc-type != "tb-assignment" {
+    let selected-theme = "src/themes/" + code-theme + ".tmTheme"
+    set raw(theme: selected-theme)
+  }
   show raw: set text(font: raw-font) // For code
 
   show heading: set text(font: sans-font) // For sections, sub-sections etc..

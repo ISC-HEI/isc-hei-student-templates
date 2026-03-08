@@ -4,7 +4,7 @@
 // ════════════════════════════════════════════════════════════════════════════
 
 #let language = "fr"
-#let version  = "1.0"
+#let doc-version  = "1.1"
 #let doc-date = datetime.today()  // ou datetime(year: 2026, month: 3, day: 8)
 
 // ─── Identité ─────────────────────────────────────────────────────────────
@@ -88,7 +88,7 @@
   title: "Donnée du travail de bachelor",
   authors: tb-student,
   date: doc-date,
-  revision: version,
+  revision: version,  
   logo: none,
   fancy-line: false,
 )
@@ -122,6 +122,6 @@
   material-cost:        tb-material-cost,
   material-procedure:   tb-material-procedure,
   extra-info:           tb-extra-info,
-  version:              version,
+  doc-version:          doc-version,
   language:             language,
 )
