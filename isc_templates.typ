@@ -339,6 +339,11 @@
 }
 
 //////////////////////////
+// TB assignment sheet
+//////////////////////////
+#import "lib/pages/tb_assignment.typ": tb-assignment-page
+
+//////////////////////////
 // Source code inclusion
 //////////////////////////
 #let _luma-background = luma(250)
