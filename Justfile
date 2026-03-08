@@ -18,24 +18,13 @@ default:
 # update *args:
 # 	typst-test update {{ args }} -->
 
-[private]
-symblink target theme:
-  ./scripts/dev_link "{{target}}" "{{theme}}"  
-
-# create symblink for dev report
-install-symblink-report: (symblink "@preview" "report")
-
-# create symblink for simple document
-install-symblink-document: (symblink "@preview" "document")
-
-# create symblink for dev bachelor thesis
-install-symblink-bthesis: (symblink "@preview" "bachelor-thesis")
-
-# create symblink for executive summary
-install-symblink-exec-summary: (symblink "@preview" "exec-summary")
-
-# create symblink for TB assignment sheet
-install-symblink-tb-assignment: (symblink "@preview" "tb-assignment")
+# install dev symlinks for all templates simultaneously
+install-symblinks:
+  ./scripts/dev_link "@preview" "bachelor-thesis"
+  ./scripts/dev_link "@preview" "report"
+  ./scripts/dev_link "@preview" "document"
+  ./scripts/dev_link "@preview" "exec-summary"
+  ./scripts/dev_link "@preview" "tb-assignment"
 
 [private]
 remove target:

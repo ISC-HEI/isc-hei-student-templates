@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# For development, create a symlink to the local package directory
+# For development, create a per-template staging directory with the correct
+# typst.toml, symlink all shared repo contents into it, then point the Typst
+# package entry at it.  This lets all templates coexist simultaneously.
 set -eu
 
 . "$(dirname "${BASH_SOURCE[0]}")/setup" ${2}
@@ -7,8 +9,6 @@ set -eu
 TARGET_DIR="$(resolve-target "$1")"
 SRC_DIR="$ROOT"
 DEST_LINK="$TARGET_DIR/$PKG_PREFIX"
-
-echo "Creating symlink for development in $TARGET_DIR"
 
 TEMPLATE="$2"
 
@@ -23,19 +23,39 @@ fi
 
 echo "Processing template $TEMPLATE"
 
+# ── 1. Create (or refresh) the per-template staging directory ──────────────
+STAGING_DIR="$ROOT/_dev/$PKG_PREFIX"
+echo "Refreshing staging directory: $STAGING_DIR"
+rm -rf "$STAGING_DIR"
+mkdir -p "$STAGING_DIR"
+
+# Symlink every top-level repo item into the staging dir,
+# skipping things that belong only to the dev/build tooling.
+for item in "$SRC_DIR"/*; do
+  [[ -e "$item" ]] || continue
+  name="$(basename "$item")"
+  case "$name" in
+    typst.toml|_dev|templates|scripts|Justfile|tmp) continue ;;
+  esac
+  ln -sf "$item" "$STAGING_DIR/$name"
+done
+
+# Place the template-specific typst.toml (real file, not a symlink)
+cp -a "$ROOT/templates/$TEMPLATE/typst.toml" "$STAGING_DIR/typst.toml"
+
+# ── 2. Point the Typst package entry at the staging directory ──────────────
+echo "Installing dev symlink in $TARGET_DIR"
 if [ -e "$DEST_LINK/$VERSION" ]; then
   echo "Removing existing $DEST_LINK/$VERSION"
   rm -rf "$DEST_LINK/$VERSION"
 fi
 mkdir -p "$DEST_LINK"
 
-ln -sf "$SRC_DIR" "$DEST_LINK/$VERSION"
+ln -sf "$STAGING_DIR" "$DEST_LINK/$VERSION"
 
 if [ $? -eq 0 ]; then
-  echo "Symlink created: $DEST_LINK/$VERSION to $SRC_DIR"
+  echo "Symlink created: $DEST_LINK/$VERSION -> $STAGING_DIR"
 else
   echo "Error: Failed to create symlink $DEST_LINK/$VERSION" >&2
   exit 1
 fi
-
-cp -a "$ROOT/templates/$TEMPLATE/typst.toml" "$DEST_LINK/$VERSION"
