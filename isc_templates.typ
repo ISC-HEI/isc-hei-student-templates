@@ -417,11 +417,13 @@
   language: "fr",
   extra-i18n: none,
   code-theme: "bluloco-light",
+  // When true: suppresses all headers, footers, and the inline compact header
+  no-decorations: false,
   body,
 ) = {
   
   // Validate doc-type
-  let valid-doc-types = ("report", "thesis", "document", "exec-summary")
+  let valid-doc-types = ("report", "thesis", "document", "exec-summary", "tb-assignment")
   assert(doc-type in valid-doc-types, message: "Invalid doc-type '" + doc-type + "'. Must be one of: " + valid-doc-types.join(", "))
   
   // Update state with the passed values so they are accessible globally
@@ -429,7 +431,7 @@
   inc.global-language.update(language)
 
   // Normalize show-toc: true -> 2, false -> 0, int -> int
-  let toc-depth = if show-toc == false { 0 } else if show-toc == true { 2 } else { int(show-toc) }
+  let toc-depth = if doc-type == "tb-assignment" { 0 } else if show-toc == false { 0 } else if show-toc == true { 2 } else { int(show-toc) }
   inc.show-toc-enabled.update(toc-depth > 0)
 
   if(project-repos != none) {
@@ -491,12 +493,26 @@
     paper: "a4",    
   ) if(doc-type == "document")
 
-  if (doc-type != "thesis") {
+  // TB assignment — same margins as document, no decorations
+  set page(
+    margin: (x: 2.0cm, y: 1.8cm),
+    footer: none,
+    header: none,
+    paper: "a4",
+  ) if(doc-type == "tb-assignment")
+
+  if (doc-type != "thesis" and doc-type != "tb-assignment") {
     // For reports and documents, we want to put the header and footer on all pages
     set-header-footer(true)
   } else {
     // For theses, we want to put the header and footer only on the first page
     set-header-footer(false)
+  }
+
+  // Suppress all page decorations when requested (must come after other set page calls)
+  if no-decorations {
+    set-header-footer(false)
+    set page(footer: none, header: none)
   }
 
   show heading: it => {
@@ -655,7 +671,7 @@
   // Cover pages
   /////////////////////////////////////////////////
   // Default logo for document type
-  let logo = if logo == auto and doc-type == "document" {
+  let logo = if logo == auto and (doc-type == "document" or doc-type == "tb-assignment") {
     if show-cover{
       image("lib/assets/isc_logo.svg")      
     } else {
@@ -667,7 +683,10 @@
     logo
   }
 
-  if not show-cover and (doc-type == "report" or doc-type == "document") {
+  // TB assignment never has a cover page
+  let show-cover = if doc-type == "tb-assignment" { false } else { show-cover }
+
+  if not show-cover and not no-decorations and (doc-type == "report" or doc-type == "document" or doc-type == "tb-assignment") {
     // Compact inline header: logo, title, authors — no page break
     if logo != none {
       place(
