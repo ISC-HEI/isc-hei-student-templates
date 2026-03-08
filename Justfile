@@ -46,7 +46,6 @@ remove target:
 # uninstall: (remove "@local")
 
 # pack all templates to a target prefix
-[private]
 pack_distro target:  
   ./scripts/pack "{{target}}" "bachelor-thesis"
   ./scripts/pack "{{target}}" "report"
