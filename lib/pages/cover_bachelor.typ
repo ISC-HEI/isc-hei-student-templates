@@ -27,15 +27,12 @@
 
   let i18n = isc.i18n.with(extra-i18n: none, language)
 
-  let hei-purple = rgb("#E20571")
+  let hei-purple = inc.hei-purple
   let right-margin = 12mm
   let left-margin = 35mm
 
   // Set the document's basic properties.
   set page(margin: (left: 0mm, right: right-margin, top: 0mm, bottom: 0mm), numbering: none, number-align: center)
-
-  // School logo
-  // place(top + right, dx: -12mm, dy: 20mm, image("../assets/isc_logo.svg", height: 1.4cm))
 
   let title_block = if subtitle == none {
     stack(par(leading: 11pt, text(title, size: 24pt, weight: 660)), v(5mm))
@@ -63,7 +60,6 @@
       v(50mm),
       // Title
       title_block,
-      // move(dy:-5mm, line(start: (0pt, 0pt), length: 5cm, stroke: (thickness: 2pt, cap: "round", dash: "solid", paint: black))),      
       
       v(35mm),
       
@@ -83,22 +79,22 @@
         // hei-purple square at the far left
         place(dx: 0cm, dy: -square-size / 2, rect(width: square-size, height: square-size, fill: hei-purple, stroke: none))
         
-        // Pseudo-random bit pattern: 3 or 4 out of 9 bits set to 1 (based on thesis ID)
+        // Pseudo-random bit pattern: 4 or 5 out of 11 bits set to 1 (based on thesis ID)
+        // This gives C(11,4) + C(11,5) = 330 + 462 = 792 unique patterns
         let bit-set(n, i) = calc.rem(int(n / calc.pow(2, i)), 2) == 1
-        let valid-patterns = range(512).filter(n => {
-          let c = range(9).filter(i => bit-set(n, i)).len()
-          c == 3 or c == 4
+        let valid-patterns = range(2048).filter(n => {
+          let c = range(11).filter(i => bit-set(n, i)).len()
+          c == 4 or c == 5
         })
-        // Hash based on thesis ID: sum of (char_code * position) for each character
-        let hash = thesis-id.clusters().enumerate().fold(0, (acc, pair) => {
-          let (i, ch) = pair
-          acc + str.to-unicode(ch) * (i + 1)
+        // Polynomial rolling hash (base 31) on thesis ID for good distribution
+        let hash = thesis-id.clusters().fold(0, (acc, ch) => {
+          calc.rem(acc * 31 + str.to-unicode(ch), 99991)
         })
         
         let pattern = valid-patterns.at(calc.rem(hash, valid-patterns.len()))
 
         // hei-purple circles as bits: hei-purple = 0, white = 1
-        let n-bits = 9
+        let n-bits = 11
         let bit-spacing = line-length / (n-bits + 1)
         for i in range(n-bits) {
           let dx-val = bit-spacing * (i+1)
@@ -157,10 +153,16 @@
     ),
   )
 
+  //
   // Second cover page
+  //
   isc.cleardoublepage()
 
-  set page(margin: (left: 31.5mm, right: 32mm, top: 55mm, bottom: 25mm), numbering: none, number-align: center)
+  set page(margin: (left: 31.5mm, right: 32mm, top: 75mm, bottom: 25mm), numbering: none, number-align: center)
+
+  // School logo
+  place(top + left, dx: 0mm, dy: -55mm, image("../assets/isc_logo.svg", height: 1.4cm))
+
 
   stack(
     // Author
@@ -175,10 +177,19 @@
     align(center, par(leading: 13pt, text(subtitle, size: 12pt)))
   }
 
+  v(18mm)
+  context{    
+    let repo = str(inc.global-project-repos.get())
+    stack(
+      align(center, text(i18n("repository"))),
+      v(3mm),
+      align(center, link(repo, text(size: 10pt, font: "Fira Code", repo)))    
+    )
+  }
+  
   v(1fr)
 
   stack(
-    // Content
     stack(
       spacing: 3mm,
       text(i18n("thesis-submitted")),
@@ -207,9 +218,9 @@
     },
     if submission-date != none {
       stack(v(6mm), line(start: (0pt, 0pt), length: 25pt, stroke: 1mm), v(6mm), text(
-        i18n("submitted-on") + " " + inc.custom-date-format(submission-date, i18n("date-format"), language),
+        i18n("submitted-on") + " " + inc.custom-date-format(submission-date, i18n("date-format") + " - " + i18n("revision") + " - " + revision, language),
         size: 10pt,
       ))
-    },
+    }
   )
 }

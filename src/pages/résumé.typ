@@ -1,6 +1,8 @@
-#import "@preview/isc-hei-bthesis:0.6.0" : *
+#import "@preview/isc-hei-bthesis:0.7.0" : *
 
 #heavy-title("Résumé")
+
+#v(1fr)
 
 Le résumé d’un mémoire de bachelor doit fournir un aperçu concis de l’ensemble du travail. Il inclut généralement :
 

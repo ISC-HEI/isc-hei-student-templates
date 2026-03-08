@@ -28,7 +28,8 @@
         "supervising-second-examiner": "Co-superviseur·e",
         "supervising-expert": "Expert·e",
         "keywords": "Mots-clés",
-        "submitted-on": "Travail soumis le"
+        "submitted-on": "Travail soumis le",
+        "revision": "Révision"
     },    
     "en": {
         "toc-title": "Table of Contents",
@@ -59,7 +60,8 @@
         "supervising-examiner": "Supervisor",
         "supervising-second-examiner": "Co-supervisor",
         "supervising-expert": "Expert",
-        "submitted-on": "Submitted on"
+        "submitted-on": "Submitted on",
+        "revision": "Revision"
     },
     "de": {
         "toc-title": "Inhaltsverzeichnis",

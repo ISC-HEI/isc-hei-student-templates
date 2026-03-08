@@ -3,7 +3,7 @@
 #let doc_language = "en" // Valid values are en, fr
 
 #show: project.with( 
-  title: "Life, the Universe, and Everything", // Your thesis title
+  title: "LTFM\nLife, the Universe, and Everything", // Your thesis title
   subtitle: "An exploration of the intersection between computer science and engineering, focusing on their impact on modern technological advancements.", // Optional, use none if not needed
   authors: "James Gosling", 
   language: doc_language, // must be defined globally, see above
@@ -21,7 +21,7 @@
   keywords: ("engineering", "data", "machine learning", "meteorology"),
   major : "Data engineering", // "Software engineering", "Embedded systems", "Security", "something else"
 
-  date: datetime(year: 2025, month: 6, day: 30), // or datetime.today() 
+  date: datetime(year: 2026, month: 6, day: 30), // or datetime.today() 
 
   doc-type: "thesis",
   split-chapters: true,

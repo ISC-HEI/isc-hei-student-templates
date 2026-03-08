@@ -1,6 +1,8 @@
-#import "@preview/isc-hei-bthesis:0.6.0" : *
+#import "@preview/isc-hei-bthesis:0.7.0" : *
 
 #heavy-title("Abstract")
+
+#v(1fr)
 
 The abstract of a bachelor thesis should provide a concise summary of the entire work. It typically includes:
 

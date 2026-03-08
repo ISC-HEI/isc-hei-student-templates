@@ -3,11 +3,12 @@
 // Bachelor thesis template first page inspired from Lasse Rosenow work on https://typst.app/universe/package/haw-hamburg-master-thesis
 
 #import "lib/includes.typ" as inc
+#import "@preview/gentle-clues:1.3.0": clue
 
 // Global settings
 #let space-after-heading = 0.8em
-#let chapter-font-size = 1.4em
-#let chapter-font-weight = 650
+#let chapter-font-size = 1.5em
+#let chapter-font-weight = 700
 #let global-keywords = inc.global-keywords
 #let version = "0.7.0"
 
@@ -19,6 +20,71 @@
   block(fill: none, inset: (x: 0pt, bottom: bottom, top: top), below: space-after-heading * mult, {
     title
   })
+}
+
+// Draw a decorative rule under a chapter heading.
+// The decoration pattern cycles with each numbered chapter.
+//
+// decorations — array of patterns, one entry consumed per chapter (cycling).
+//   Each pattern is an array of shape dicts: (shape:, filled:)
+//     shape:  "square" | "circle" | "diamond"
+//     filled: true  → shape filled with hei-purple
+//             false → white interior, hei-purple border
+//   Multiple dicts in one pattern draw multiple shapes, left-to-right, at the right end.
+// enabled — set to false to draw only the plain line with no shape ornaments.
+#let chapter-rule(
+  decorations: (
+    ((shape: "square",  filled: false),),
+    ((shape: "circle",  filled: true),),
+    ((shape: "square",  filled: true),),
+    ((shape: "diamond", filled: false),),
+    ((shape: "circle",  filled: true),),
+    ((shape: "diamond", filled: false), (shape: "square", filled: true)),
+  ),
+  enabled: true,
+  chapter: 1,
+) = {
+  let color = inc.hei-purple
+  let sz    = 10pt
+  let gap   = 3pt
+  let thick = 1pt
+
+  v(-0.4em)
+
+  layout(size => {
+      // Horizontal rule
+      place(line(length: size.width, stroke: (thickness: thick, paint: black)))
+
+      if enabled and decorations.len() > 0 {
+        let pattern = decorations.at(calc.rem(chapter - 1, decorations.len()))
+        let n = pattern.len()
+
+        // pattern is ordered left-to-right; last entry is rightmost
+        for (i, spec) in pattern.enumerate() {
+          let fill-color = if spec.filled { color } else { white }
+          let x = size.width - sz - (sz + gap) * (n - 1 - i)
+
+          if spec.shape == "square" {
+            place(dx: x, dy: -sz / 2,
+              rect(width: sz, height: sz, fill: fill-color, stroke: color))
+          } else if spec.shape == "circle" {
+            place(dx: x, dy: -sz / 2,
+              ellipse(width: sz, height: sz, fill: fill-color, stroke: color))
+          } else if spec.shape == "diamond" {
+            place(dx: x, dy: -sz / 2,
+              polygon(
+                fill: fill-color, stroke: color,
+                (sz / 2, 0pt),
+                (sz,     sz / 2),
+                (sz / 2, sz),
+                (0pt,    sz / 2),
+              ))
+          }
+        }
+      }
+
+      v(1em)
+    })
 }
 
 // Enable the display of headers and footers
@@ -176,15 +242,50 @@
 
 
 #let abstract-footer(lang) = {
+  // Suppress the inline-code background box so URLs render as plain monospace
+  show raw.where(block: false): it => it
 
-  let colon = context if lang == "fr" { " : " } else { ": " }
+  context {
+    let repo       = str(inc.global-project-repos.get())
+    let kw-list    = inc.global-keywords.get().join(", ")
+    let repo-title = i18n(lang, "repository")
+    let kw-title   = i18n(lang, "keywords")
+    let accent-repo = rgb(30, 102, 245)   // blue
+    let accent-kw   = rgb(23, 146, 153)   // teal
 
-  [
-  #v(1fr)
-  #context {text(i18n(lang, "keywords"), weight: "bold") + colon + inc.global-keywords.get().join(", ")}
-  #v(-1mm)
-  #context {text(i18n(lang, "repository"), weight: "bold") + colon + raw(inc.global-project-repos.get())}
-  ]
+    // Repo box: floated to the top-right, compact insets, normal text size
+    // Measure header and body to size the box snugly around its content
+    let repo-header-w = measure(box(inset: (x: 0.3em),
+      grid(columns: (auto, auto), gutter: 1em,
+        align: (horizon, left + horizon),
+        box(height: 0.8em)[#text(0.8em)[🔗]], text(0.8em, repo-title))
+    )).width
+    let repo-body-w = measure(box(inset: (x: 0.4em), raw(repo))).width
+    let repo-box-w  = calc.max(repo-header-w, repo-body-w) + 2pt  // 2pt for left stroke
+
+    place(top + right,
+      clue(
+        align(right, link(repo)[#raw(repo)]),
+        title: text(0.8em, repo-title), icon: text(0.8em)[🔗],
+        accent-color: accent-repo, body-color: accent-repo.lighten(95%),
+        radius: 0pt, stroke-width: 2pt,
+        header-inset: 0.3em, content-inset: 0.4em,
+        width: repo-box-w,
+      )
+    )
+
+    // Push keywords to the bottom of the page
+    v(1fr)
+
+    // Full-width keywords clue
+    clue(
+      align(center, text(0.9em,kw-list)),
+      title: text(0.9em,kw-title), icon: text(0.9em)[🏷],
+      accent-color: accent-kw, body-color: accent-kw.lighten(95%),
+      header-inset: 0.3em, content-inset: 0.7em,
+      radius: 0pt, stroke-width: 3pt,
+    )
+  }
 }
 
 //////////////////////////
@@ -352,12 +453,18 @@
       pagebreak(to: "odd", weak: true)  
       inc.blank-page.update(false)
       
-      block(fill: none, inset: (x: 0pt, bottom: 2pt, top: 1em), below: space-after-heading * 2, if (it.numbering != none) {
+      block(fill: none, inset: (x: 0pt, bottom: space-after-heading, top: 4em), below: 0pt, {
         // If the heading has a numbering, display it
-        text(i18n("chapter-title") + " " + counter(heading).display() + " " + it.body, size: chapter-font-size, weight: chapter-font-weight)        
-      } else {
-        // Otherwise just display the body
-        it
+        if (it.numbering != none) {
+          text(i18n("chapter-title") + " " + counter(heading).display() + " " + it.body, size: chapter-font-size, weight: chapter-font-weight)        
+        } else {
+          it
+        }
+        // Decorative rule — only for numbered (chapter) headings
+        if it.numbering != none {
+          context chapter-rule(chapter: counter(heading).get().first())
+        }
+
       })
     } else {
       it
@@ -379,9 +486,11 @@
     panic("No authors provided for the report")
   }  
 
+  let footer-title = if type(title) == str { title.replace("\n", " – ") } else { title }
+
   let footer-content = context text(0.75em)[
     #{
-      emph(title) 
+      emph(footer-title) 
       if revision != none {
           text(", rev " + revision, style: "italic")
       }

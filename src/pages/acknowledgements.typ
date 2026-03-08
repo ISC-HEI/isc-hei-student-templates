@@ -1,7 +1,9 @@
-#import "@preview/isc-hei-bthesis:0.6.0" : *
+#import "@preview/isc-hei-bthesis:0.7.0" : *
 
 // Get the proper title for acknowledgements if not written in English
 #heavy-title(context i18n(inc.global-language.get(), "acknowledgements"))
+
+#v(1fr)
 
 The *Acknowledgements* section of a bachelor thesis is where you express gratitude to those who supported you during your research and writing process. It is an *OPTIONAL* section. It may include:
 
@@ -12,3 +14,5 @@ The *Acknowledgements* section of a bachelor thesis is where you express gratitu
 - Anyone else who contributed significantly to your work. 
  
 Keep this section concise and sincere. It is typically placed after the abstract and before the main content of your thesis.
+
+#v(1fr)
