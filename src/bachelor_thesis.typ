@@ -44,8 +44,6 @@
 #cleardoublepage()
 #include "pages/acknowledgements.typ"
 
-#table-of-contents(depth:2)
-
 = Writing a thesis 
 
 // Enable headers and footers from this point on

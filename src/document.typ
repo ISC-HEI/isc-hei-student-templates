@@ -3,7 +3,8 @@
 #show: project.with(
   doc-type: "document",
   show-cover: false,
-  show-toc: false,
+  show-toc: false, // Set to true if you want a table of contents, or 1, 2, 3... for a specific depth
+  fancy-line: false,  
 
   title: "A simple template for ISC documents",
   subtitle: [Typeset with `Typst`],
@@ -12,15 +13,12 @@
   date: datetime(year: 2026, month: 3, day: 24), // or datetime.today()
   revision: "1.0",
   language: "fr", // Valid values are en, fr, de
-  logo: none, // Set to none if you wish no logo at all
+  logo: auto, // Set to none if you wish no logo at all
   
   code-theme: "bluloco-light", // See directory themes/ for available themes
 )
 
 // Let's get started folks!
-
-#table-of-contents(depth: 2)
-
 = Introduction
 
 Ce document présente un aperçu des fonctionnalités offertes par #link("https://typst.app")[Typst], un système de composition typographique moderne. Les sections suivantes illustrent la mise en forme de texte, les listes, les tableaux, les images, le code source, les formules mathématiques et bien plus encore.

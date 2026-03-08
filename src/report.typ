@@ -19,6 +19,7 @@
   cover-image-caption: [KNN graph -- Inspired by _Marcus Volg_],
   
   logo: image("figs/isc_logo.svg"),
+  show-toc: 1,
   
   code-theme: "bluloco-light", // See directory themes/ for available themes
 )
@@ -28,8 +29,6 @@
 #include "acronyms.typ"
 
 // Let's get started folks!
-
-#table-of-contents(depth: 1)
 
 = Introduction
 Écrire un rapport est un exercice autant *de fond que de forme*. Dans ce contexte, nous proposons dans ce document de quoi simplifier la rédaction de la forme sans avoir -- à priori -- d'avis sur le fond, ceci dans le contexte de la filière ISC#footnote[Voici d'ailleurs comment mettre une note de bas de page https://isc.hevs.ch].

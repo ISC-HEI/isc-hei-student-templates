@@ -215,8 +215,11 @@
   // Document type: "report", "thesis", "document", "exec-summary"
   doc-type: "report",  
   split-chapters: true,
+
+  // Document specific
   show-cover: true,
-  show-toc: true,
+  show-toc: 2, // false = no TOC, true = TOC with depth 2, integer = TOC with given depth
+  fancy-line: true, // Use decorative line with squares (false = simple line)
 
   // Bachelor thesis specific
   thesis-supervisor: [Thesis supervisor],
@@ -248,6 +251,7 @@
   cover-image-kind: auto,
   cover-image-supplement: auto,
   
+  
   // A list of authors, separated by commas
   authors: (),
   date: none,
@@ -267,7 +271,10 @@
   // Update state with the passed values so they are accessible globally
   inc.global-keywords.update(keywords)
   inc.global-language.update(language)
-  inc.show-toc-enabled.update(show-toc)
+
+  // Normalize show-toc: true -> 2, false -> 0, int -> int
+  let toc-depth = if show-toc == false { 0 } else if show-toc == true { 2 } else { int(show-toc) }
+  inc.show-toc-enabled.update(toc-depth > 0)
 
   if(project-repos != none) {
     inc.global-project-repos.update(project-repos)
@@ -513,28 +520,34 @@
     v(-0.2em)
     text(1.1em, authors.join(", "))
     v(-0.1em)
-    layout(size => {
-      let total-w = size.width
-      let solid-end = 0.8 * total-w
-      let square-size = 1.5pt
-      let color = luma(20)
-      // Solid line for the first 80%
-      place(line(length: solid-end, stroke: (paint: color, thickness: 1.5pt)))
-      // Small squares with increasing spacing for the remaining 40%
-      let remaining = total-w - solid-end
-      let x = solid-end + 0.5pt
-      let gap = 0.5pt
-      let positions = ()
-      while x < total-w {
-        positions.push(x)
-        gap = gap * 1.3
-        x = x + square-size + gap
-      }
-      for px in positions {
-        place(dx: px, dy: -square-size / 2, rect(width: square-size, height: square-size, fill: color, stroke: none))
-      }
-      v(square-size)
-    })
+
+    // A line to separate the header from the content
+    if fancy-line {
+      layout(size => {
+        let total-w = size.width
+        let solid-end = 0.8 * total-w
+        let square-size = 1.5pt
+        let color = luma(20)
+        // Solid line for the first 80%
+        place(line(length: solid-end, stroke: (paint: color, thickness: 1.5pt)))
+        // Small squares with increasing spacing for the remaining 40%
+        let remaining = total-w - solid-end
+        let x = solid-end + 0.5pt
+        let gap = 0.5pt
+        let positions = ()
+        while x < total-w {
+          positions.push(x)
+          gap = gap * 1.3
+          x = x + square-size + gap
+        }
+        for px in positions {
+          place(dx: px, dy: -square-size / 2, rect(width: square-size, height: square-size, fill: color, stroke: none))
+        }
+        v(square-size)
+      })
+    } else {
+      line(length: 100%, stroke: (paint: luma(20), thickness: 1.5pt))
+    }
     v(0.4em)
   } else if (doc-type == "report") {
     import "lib/pages/cover_report.typ": cover_page
@@ -642,6 +655,11 @@
   // Add some top spacing on the first content page for report and document
   if show-cover and (doc-type == "report" or doc-type == "document") {
     v(2em)
+  }
+
+  // Auto-insert table of contents if enabled
+  if toc-depth > 0 {
+    table-of-contents(depth: toc-depth)
   }
 
   body
