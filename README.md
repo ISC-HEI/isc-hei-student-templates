@@ -13,6 +13,8 @@ These are the official templates for reports, bachelor theses, and project execu
   <a href="examples/bachelor_thesis.pdf?raw=true"><img src="bachelor_thesis_thumb.png" alt="Bachelor Thesis" height="300"></a>
   <a href="examples/exec_summary.pdf?raw=true"><img src="exec_summary.png" alt="Executive Summary" height="300"></a>
   <a href="examples/report.pdf?raw=true"><img src="report_thumb.png" alt="Report" height="300"></a>
+  <a href="examples/document.pdf?raw=true"><img src="document_thumb.png" alt="Report" height="300"></a>
+  <a href="examples/tb_assignment.pdf?raw=true"><img src="tb_assignment_thumb.png" alt="Report" height="300"></a>
 </p>
 
 ## Using the template, on the Web
