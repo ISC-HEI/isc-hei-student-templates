@@ -3,7 +3,7 @@
 // Bachelor thesis template first page inspired from Lasse Rosenow work on https://typst.app/universe/package/haw-hamburg-master-thesis
 
 #import "lib/includes.typ" as inc
-#import "@preview/gentle-clues:1.3.0": clue
+#import "@preview/gentle-clues:1.3.1": clue
 
 // Global settings
 #let space-after-heading = 0.8em
@@ -592,7 +592,7 @@
         // First page compact mode: show date and version
         text(0.75em, {
           if date != none {
-            inc.custom-date-format(date, i18n("date-format"), language)
+            inc.custom-date-format(date, pattern: i18n("date-format"), lang: language)
           }
           if revision != none {
             if date != none {

@@ -14,7 +14,7 @@
         "table-table-title": "Table des tableaux",
         "equation-table-title": "Table des équations",
         "bachelor-thesis-title": "Mémoire de Bachelor",
-        "date-format": "DD month YYYY",
+        "date-format": "dd MMMM yyyy",
         "bibliography-title": "Bibliographie",
         "acknowledgements": "Remerciements",
         "thesis-submitted" : "Mémoire soumis pour le programme de bachelor",
@@ -46,7 +46,7 @@
         "table-table-title": "List of Tables",
         "equation-table-title": "List of Equations",
         "bachelor-thesis-title": "Bachelor Thesis",
-        "date-format": "Month DD, YYYY",
+        "date-format": "MMMM dd, yyyy",
         "bibliography-title": "Bibliography",
         "acknowledgements": "Acknowledgements",
         "thesis-submitted" : "Thesis submitted to the Bachelor degree programme",
@@ -77,6 +77,6 @@
         "listing-table-title": "Quelltexte",
         "table-table-title": "Tabellen",
         "equation-table-title": "Gleichungen",
-        "date-format": "DD. MMMM YYYY"
+        "date-format": "dd. MMMM yyyy"
     }
 }

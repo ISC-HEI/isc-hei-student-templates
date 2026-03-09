@@ -88,7 +88,7 @@
   ))
 
   // The date
-  text(1.1em, inc.custom-date-format(date, i18n("date-format"), language))
+  text(1.1em, inc.custom-date-format(date, pattern: i18n("date-format"), lang: language))
 
   v(2.4fr)
   pagebreak()

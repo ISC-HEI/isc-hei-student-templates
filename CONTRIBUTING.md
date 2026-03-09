@@ -63,7 +63,7 @@ For convenience, `just test_all` tries to compile every package using the local 
 - Fork the [Typst universe repos](https://github.com/typst/packages/tree/main)
 - Clone the fork it into `DEST_TO_REPOS`, and then `just pack_distro DEST_TO_REPOS/packages/preview`.
 - Lint for kebab-case only (at least publicly accessible functions)
-- Test using `typst-package-check` from <https://github.com/typst/package-check>, using `typst-package-check check @preview/isc-hei-bthesis:0.5.0` from the `packages` directory *inside* of the cloned repos.
+- Test using `typst-package-check` from <https://github.com/typst/package-check>, using `typst-package-check check @preview/isc-hei-bthesis:0.5.0` from the `packages` directory *inside* of the cloned Typst universe repos.
 - From github, create PR as usual. A template creates automatically the PR text with update etc... If changes are required by CI/CD, push to local repository. It updates the PR automatically.
 
 ### Forking issues

@@ -5,7 +5,7 @@
 #import "@preview/showybox:2.0.4": showybox
 
 // Custom date format
-#import "@preview/datify:0.1.4": day-name, month-name, custom-date-format
+#import "@preview/datify:1.0.1": custom-date-format
 
 #let global-language = state("ln", "en")
 #let global-keywords = state("kw", ())

@@ -2,14 +2,13 @@
 // Called from src/tb_assignment.typ via the exported tb-assignment-page() function.
 
 // Locale-aware date formatting via datify
-#import "@preview/datify:0.1.4": custom-date-format
 #import "../includes.typ" as inc
 
 // Date format patterns per language (matches i18n.json)
 #let _date-formats = (
-  fr: "DD month YYYY",
-  en: "Month DD, YYYY",
-  de: "DD. MMMM YYYY",
+  fr: "dd MMMM yyyy",
+  en: "MMMM dd, yyyy",
+  de: "dd. MMMM yyyy",
 )
 
 // ── Translations ───────────────────────────────────────────────────────
@@ -214,7 +213,7 @@
 
   // ── Date formatter ─────────────────────────────────────────────────────
   let _fmt = _date-formats.at(language, default: "DD month YYYY")
-  let _fmtdate(d) = if d == none { "–" } else { custom-date-format(d, _fmt, language) }
+  let _fmtdate(d) = if d == none { "–" } else { custom-date-format(d, pattern: _fmt, lang: language) }
   let _t = _i18n.at(language, default: _i18n.fr)
 
   // ── Style constants ────────────────────────────────────────────────────

@@ -161,7 +161,7 @@
   set page(margin: (left: 31.5mm, right: 32mm, top: 75mm, bottom: 25mm), numbering: none, number-align: center)
 
   // School logo
-  place(top + left, dx: 0mm, dy: -55mm, image("../assets/isc_logo.svg", height: 1.4cm))
+  place(top + center, dx: 0mm, dy: -55mm, image("../assets/isc_logo.svg", height: 1.4cm))
 
 
   stack(
@@ -218,7 +218,7 @@
     },
     if submission-date != none {
       stack(v(6mm), line(start: (0pt, 0pt), length: 25pt, stroke: 1mm), v(6mm), text(
-        i18n("submitted-on") + " " + inc.custom-date-format(submission-date, i18n("date-format") + " - " + i18n("revision") + " - " + revision, language),
+        i18n("submitted-on") + " " + inc.custom-date-format(submission-date, pattern: i18n("date-format") + " - " + i18n("revision") + " - " + revision, lang: language),
         size: 10pt,
       ))
     }
