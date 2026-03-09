@@ -1,15 +1,7 @@
 // Rendering logic for the TB assignment sheet and its addendum.
 // Called from src/tb_assignment.typ via the exported tb-assignment-page() function.
 
-// Locale-aware date formatting via datify
 #import "../includes.typ" as inc
-
-// Date format patterns per language (matches i18n.json)
-#let _date-formats = (
-  fr: "dd MMMM yyyy",
-  en: "MMMM dd, yyyy",
-  de: "dd. MMMM yyyy",
-)
 
 // ── Translations ───────────────────────────────────────────────────────
 #let _i18n = (
@@ -212,8 +204,9 @@
 ) = {
 
   // ── Date formatter ─────────────────────────────────────────────────────
-  let _fmt = _date-formats.at(language, default: "DD month YYYY")
-  let _fmtdate(d) = if d == none { "–" } else { custom-date-format(d, pattern: _fmt, lang: language) }
+  let _langs = json("../../i18n.json")
+  let _fmt = _langs.at(language, default: _langs.fr).at("date-format")
+  let _fmtdate(d) = if d == none { "–" } else { inc.custom-date-format(d, pattern: _fmt, lang: language) }
   let _t = _i18n.at(language, default: _i18n.fr)
 
   // ── Style constants ────────────────────────────────────────────────────
