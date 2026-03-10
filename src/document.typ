@@ -1,4 +1,4 @@
-#import "@preview/isc-hei-document:0.7.0" : *
+#import "@preview/isc-hei-document:0.7.1" : *
 
 #show: project.with(
   doc-type: "document",

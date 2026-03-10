@@ -1,4 +1,4 @@
-#import "@preview/isc-hei-report:0.7.0" : *
+#import "@preview/isc-hei-report:0.7.1" : *
 
 #let doc_language = "fr" // Valid values are en, fr
 

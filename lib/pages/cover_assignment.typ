@@ -1,25 +1,34 @@
 // Rendering logic for the TB assignment sheet and its addendum.
-// Called from src/tb_assignment.typ via the exported tb-assignment-page() function.
+// Called from src/tb_assignment.typ via the exported tb-assignment-page() function from lib/pages/cover_assignment.typ.
+// P.-A. Mudry March, 2026
 
 #import "../includes.typ" as inc
+
+// Various project types
+#let project-types = (exploratory: "exploratory", implementation: "implementation")
+
+// Usage: hes(), industry("Acme Corp"), school("EPFL")
+#let hes() = (type: "hes", label: none)
+#let industry(name) = (type: "industry", label: name)
+#let school(name)  = (type: "institution", label: name)
 
 // ── Translations ───────────────────────────────────────────────────────
 #let _i18n = (
   fr: (
-    filiere: "Filière",
+    study-program: "Filière",
     academic-year: "Année académique",
     tb-number: "Référence du travail",
-    mandant: "Mandant",
+    mandator: "Mandant",
     expert: "Expert·e",
     location: "Lieu d'exécution",
-    industrie: "Industrie",
-    etablissement: "Établissement partenaire",
+    industry: "Industrie",
+    institution: "Établissement partenaire",
     confidential: "Travail confidentiel",
     professor: "Professeur·e",
     co-supervisor: "Co-superviseur·e",
     yes: "oui",
     no: "non",
-    date-version: "Date et version",
+    date-version: "Date du document | version",
     title: "Titre",
     description: "Description",
     objectives: "Objectifs",
@@ -54,20 +63,20 @@
     extra-info-placeholder: "Si vous avez des informations supplémentaires à transmettre à l'équipe d'harmonisation.",
   ),
   en: (
-    filiere: "Study programme",
+    study-program: "Study programme",
     academic-year: "Academic year",
     tb-number: "Thesis reference",
-    mandant: "Principal",
+    mandator: "Principal",
     expert: "Expert",
     location: "Place of execution",
-    industrie: "Industry",
-    etablissement: "Partner institution",
+    industry: "Industry",
+    institution: "Partner institution",
     confidential: "Confidential work",
     professor: "Professor",
     co-supervisor: "Co-supervisor",
     yes: "yes",
     no: "no",
-    date-version: "Date and version",
+    date-version: "Date | version",
     title: "Title",
     description: "Description",
     objectives: "Objectives",
@@ -102,14 +111,14 @@
     extra-info-placeholder: "If you have any more information about the project that you'd like to transmit to the harmonization team.",
   ),
   de: (
-    filiere: "Studiengang",
+    study-program: "Studiengang",
     academic-year: "Akademisches Jahr",
     tb-number: "BA Nr.",
-    mandant: "Auftraggeber",
+    mandator: "Auftraggeber",
     expert: "Expert·in",
     location: "Durchführungsort",
-    industrie: "Industrie",
-    etablissement: "Partnerinstitution",
+    industry: "Industrie",
+    institution: "Partnerinstitution",
     confidential: "Vertrauliche Arbeit",
     professor: "Professor·in",
     co-supervisor: "Ko-Betreuer·in",
@@ -158,38 +167,36 @@
   supervisor:      "Prof. Dr ...",
   co-supervisor:   none,
   expert:          "Dr ...",
-  filiere:       "ISC",
+  study-program: "ISC",
   academic-year: "20xx-xx",
 
-  // Mandant — "hes" | "industrie" | "etablissement"
-  //   or (industrie: "Company Name") | (etablissement: "School Name")
-  mandant: "hes",
+  // Either hes(), industry("Acme Corp"), or school("EPFL")
+  mandator: hes(),
 
-  // Lieu — "hes" | "industrie" | "etablissement"
-  //   or (industrie: "Company Name") | (etablissement: "School Name")
-  lieu: "hes",
+  // Either hes(), industry("Acme Corp"), or school("EPFL")
+  site: hes(),
 
   // Confidentiality
   confidential: false,
 
-  // Content
-  title:       [Titre du travail de bachelor],
+  // Content[
+  title:       [Donnée du travail de bachelor],
   description: [Description du travail de bachelor.],
-  objectifs:   [Objectifs du travail de bachelor.],
+  objectives-content: [Objectifs du travail de bachelor.],
 
   // Dates (datetime objects for locale formatting)
   date-attribution:  none,
-  date-debut:        none,
-  date-remise:       none,
-  date-remise-time:  "12:00",     // time string appended after the date
+  date-start:        none,
+  date-submission:   none,
+  date-submission-time:  "12:00",     // time string appended after the date
   date-defense:      [Semaines xx et xx],        // free text
-  date-expo-hei:     none,
-  date-expo-hei-suffix: "HEI",
-  date-expo-monthey: none,
-  date-expo-monthey-suffix: "Monthey",
+  date-exhibition-hei:     none,
+  date-exhibition-hei-suffix: "HEI",
+  date-exhibition-monthey: none,
+  date-exhibition-monthey-suffix: "Monthey",
 
   // Addendum
-  project-type:         "exploratoire",
+  project-type:         "exploratory",
   data-dep:             1,
   data-explanation:     none,
   material-dep:         1,
@@ -253,28 +260,14 @@
     }
   }
 
-  // ── Resolve mandant / lieu ─────────────────────────────────────────────
-  // Accepts "hes", "industrie", "etablissement" or a dict like
-  // (industrie: "Acme Corp") / (etablissement: "EPFL")
-  // Returns (type: str, industrie-label: str, etablissement-label: str)
-  let _resolve(val, default-ind, default-etab) = {
-    if type(val) == str {
-      (type: val, industrie-label: default-ind, etablissement-label: default-etab)
-    } else if type(val) == dictionary {
-      if "industrie" in val {
-        (type: "industrie", industrie-label: val.industrie, etablissement-label: default-etab)
-      } else if "etablissement" in val {
-        (type: "etablissement", industrie-label: default-ind, etablissement-label: val.etablissement)
-      } else {
-        panic("Expected key 'industrie' or 'etablissement' in dict")
-      }
-    } else {
-      panic("Expected string or dictionary for mandant/lieu")
-    }
+  let _resolve(val, default-industry, default-institution) = {
+    let industry-label = if val.type == "industry" and val.label != none { val.label } else { default-industry }
+    let institution-label = if val.type == "institution" and val.label != none { val.label } else { default-institution }
+    (type: val.type, industry-label: industry-label, institution-label: institution-label)
   }
 
-  let _m = _resolve(mandant, _t.industrie, _t.etablissement)
-  let _l = _resolve(lieu, _t.industrie, _t.etablissement)
+  let _m = _resolve(mandator, _t.industry, _t.institution)
+  let _l = _resolve(site, _t.industry, _t.institution)
 
   place(
     top + right,
@@ -288,22 +281,22 @@
     columns: (1fr, 1fr, 1fr),
     stroke: _stroke,
 
-    _lbl[#_t.filiere], _lbl[#_t.academic-year], _lbl[#_t.tb-number],
-    _val[#filiere], _val[#academic-year], _val[#id],
+    _lbl[#_t.study-program], _lbl[#_t.academic-year], _lbl[#_t.tb-number],
+    _val[#study-program], _val[#academic-year], _val[#id],
 
-    _lbl[#_t.mandant], _lbl[#_t.expert], _lbl[#_t.location],
+    _lbl[#_t.mandator], _lbl[#_t.expert], _lbl[#_t.location],
     table.cell(fill: white, inset: _ci)[
       #set text(size: 9pt)
       #_checkbox(_m.type == "hes") HES---SO Valais-Wallis \
-      #_checkbox(_m.type == "industrie") #_m.industrie-label \
-      #_checkbox(_m.type == "etablissement") #_m.etablissement-label
+      #_checkbox(_m.type == "industry") #_m.industry-label \
+      #_checkbox(_m.type == "institution") #_m.institution-label
     ],
     _val[#expert],
     table.cell(fill: white, inset: _ci)[
       #set text(size: 9pt)
       #_checkbox(_l.type == "hes") HES---SO Valais-Wallis \
-      #_checkbox(_l.type == "industrie") #_l.industrie-label \
-      #_checkbox(_l.type == "etablissement") #_l.etablissement-label
+      #_checkbox(_l.type == "industry") #_l.industry-label \
+      #_checkbox(_l.type == "institution") #_l.institution-label
     ],
 
     _lbl[#_t.confidential], _lbl[#_t.professor], _lbl[#_t.co-supervisor],
@@ -319,7 +312,7 @@
     _lbl[#_t.date-version],
     table.cell(fill: white, inset: _ci, colspan: 2)[
       #set text(size: 9pt)
-      #_fmtdate(datetime.today()) - Version #doc-version
+      #_fmtdate(datetime.today()) - v#doc-version
     ],
   )
 
@@ -333,7 +326,7 @@
       stroke: _stroke,
       _lbl[#_t.title],       _val[#text(size: 11pt, weight: "semibold", title)],
       _lbl[#_t.description], _val[#description],
-      _lbl[#_t.objectives],   _val[#objectifs],
+      _lbl[#_t.objectives],   _val[#objectives-content],
     )
   )
 
@@ -361,11 +354,11 @@
     table.cell(fill: white, inset: _ci, align: horizon)[
       #set text(size: 9pt)
       #_t.theme-attribution : #h(1fr) *#_fmtdate(date-attribution)* \
-      #_t.start-work : #h(1fr) *#_fmtdate(date-debut)* \
-      #_t.report-submission : #h(1fr) *#{ _fmtdate(date-remise) + " " + if date-remise-time != none [#date-remise-time] else [] }* \
+      #_t.start-work : #h(1fr) *#_fmtdate(date-start)* \
+      #_t.report-submission : #h(1fr) *#{ _fmtdate(date-submission) + " " + if date-submission-time != none [#date-submission-time] else [] }* \
       #_t.oral-defense : #h(1fr) *#date-defense* \
-      #_t.exhibitions-pitch : #h(1fr) *#{ _fmtdate(date-expo-hei) + " - " + date-expo-hei-suffix }* \
-      #h(1fr) *#{ _fmtdate(date-expo-monthey) + " - " + date-expo-monthey-suffix }*
+      #_t.exhibitions-pitch : #h(1fr) *#{ _fmtdate(date-exhibition-hei) + " - " + date-exhibition-hei-suffix }* \
+      #h(1fr) *#{ _fmtdate(date-exhibition-monthey) + " - " + date-exhibition-monthey-suffix }*
     ],
   )
 
@@ -389,7 +382,7 @@
     // ── Type de projet ───────────────────────────────────────────────────
     _lbl[#_t.project-type],
     _val[
-      #_checkbox(project-type == "exploratoire") #_t.exploratory #h(2.5em)
+      #_checkbox(project-type == "exploratory") #_t.exploratory #h(2.5em)
       #_checkbox(project-type == "implementation") #_t.implementation
     ],
 

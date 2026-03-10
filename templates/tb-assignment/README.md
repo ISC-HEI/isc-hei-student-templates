@@ -8,7 +8,7 @@
 
 # TB Assignment Sheet Template for ISC
 
-This is the official template for the bachelor thesis assignment sheet (*Données du travail de bachelor*) for the [ISC degree programme](https://isc.hevs.ch/) at the School of Engineering in Sion. It is part of the official templates repository, which also includes templates for bachelor theses (`isc-hei-bthesis`), reports (`isc-hei-report`) and executive summaries (`isc-hei-exec-summary`).
+This is the official template for the bachelor thesis assignment sheet (*Donnée du travail de bachelor*) for the [ISC degree programme](https://isc.hevs.ch/) at the School of Engineering in Sion. It is part of the official templates repository, which also includes templates for bachelor theses (`isc-hei-bthesis`), reports (`isc-hei-report`) and executive summaries (`isc-hei-exec-summary`).
 
 This document is **filled in by the professor**, not by the student. Once compiled to PDF, it should be included in the student's bachelor thesis document.
 

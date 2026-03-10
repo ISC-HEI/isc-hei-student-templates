@@ -1,4 +1,4 @@
-#import "@preview/isc-hei-bthesis:0.7.0" : *
+#import "@preview/isc-hei-bthesis:0.7.1" : *
 
 #let doc_language = "fr" // Valid values are en, fr
 
@@ -24,6 +24,7 @@
   date: datetime(year: 2026, month: 6, day: 30), // or datetime.today() 
 
   doc-type: "thesis",
+  fancy-chapter-rule: true,
   split-chapters: true,
   revision: "1.0", // Or for instance "1.0", for the version of your thesis  
   code-theme: "bluloco-light", // See directory themes/ for available themes
