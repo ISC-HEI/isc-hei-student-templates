@@ -1,4 +1,5 @@
 #import "@preview/isc-hei-tb-assignment:0.7.1" : *
+#import "../lib/pages/cover_assignment.typ" : get-document-title
 
 #let language = "fr"
 #let tb-student = "Barbara Liskov" // Student's name
@@ -76,9 +77,9 @@ En cas d'indisponibilité, nous utiliserons un ancien modèle que nous avons dé
 #show: project.with(
   doc-type: "tb-assignment",
   language: language,
-  title: "Donnée du travail de bachelor",
+  title: get-document-title(language),
   authors: tb-student,
-  date: doc-date,
+  date: doc-date, 
   revision: version,
   logo: none,
   fancy-line: false,
@@ -89,7 +90,7 @@ En cas d'indisponibilité, nous utiliserons un ancien modèle que nous avons dé
   id: tb-id,
   supervisor: tb-supervisor,
   co-supervisor: tb-co-supervisor,
-  expert: tb-expert,
+  expert: tb-expert, 
   study-program: tb-study-program,
   academic-year: tb-academic-year,
   mandator: tb-mandator,

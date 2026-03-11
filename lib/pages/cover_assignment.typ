@@ -40,7 +40,9 @@
     start-work: "Début du travail de bachelor",
     report-submission: "Remise du rapport final",
     oral-defense: "Défense orale",
-    exhibitions-pitch: "Expositions et Pitch",
+    exhibitions: "Expositions des posters",
+    pitch: "Pitch",
+    document-title: "Donnée du travail de bachelor",
     addendum-title: "Addendum — Donnée du travail de bachelor",
     project-type: "Type de projet",
     exploratory: "Exploratoire",
@@ -88,7 +90,9 @@
     start-work: "Start of bachelor thesis",
     report-submission: "Final report submission",
     oral-defense: "Oral defence",
-    exhibitions-pitch: "Exhibitions and Pitch",
+    exhibitions: "Poster exhibitions",
+    pitch: "Pitch challenge",
+    document-title: "Bachelor thesis description",
     addendum-title: "Addendum — Bachelor thesis description",
     project-type: "Project type",
     exploratory: "Exploratory",
@@ -136,7 +140,9 @@
     start-work: "Beginn der Bachelorarbeit",
     report-submission: "Abgabe des Schlussberichts",
     oral-defense: "Mündliche Verteidigung",
-    exhibitions-pitch: "Ausstellungen und Pitch",
+    exhibitions: "Ausstellungen",
+    pitch: "Pitch challenge",
+    document-title: "Daten der Bachelorarbeit",
     addendum-title: "Addendum — Daten der Bachelorarbeit",
     project-type: "Projekttyp",
     exploratory: "Explorativ",
@@ -159,6 +165,9 @@
     extra-info-placeholder: "Falls Sie weitere Informationen zum Projekt an das Harmonisierungsteam weitergeben möchten.",
   ),
 )
+
+// Helper to get translated document title
+#let get-document-title(lang) = _i18n.at(lang, default: _i18n.fr).at("document-title")
 
 #let tb-assignment-page(
   // Identity
@@ -357,8 +366,8 @@
       #_t.start-work : #h(1fr) *#_fmtdate(date-start)* \
       #_t.report-submission : #h(1fr) *#{ _fmtdate(date-submission) + " " + if date-submission-time != none [#date-submission-time] else [] }* \
       #_t.oral-defense : #h(1fr) *#date-defense* \
-      #_t.exhibitions-pitch : #h(1fr) *#{ _fmtdate(date-exhibition-hei) + " - " + date-exhibition-hei-suffix }* \
-      #h(1fr) *#{ _fmtdate(date-exhibition-monthey) + " - " + date-exhibition-monthey-suffix }*
+      #_t.exhibitions : #h(1fr) *#{ _fmtdate(date-exhibition-hei) + " - " + date-exhibition-hei-suffix }* \
+      #_t.pitch : #h(1fr) *#{ _fmtdate(date-exhibition-monthey) + " - " + date-exhibition-monthey-suffix }*
     ],
   )
 
