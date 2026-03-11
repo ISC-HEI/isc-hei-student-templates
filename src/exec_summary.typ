@@ -1,6 +1,6 @@
 // Adapted from the BFH year book idea at https://www.bfh.ch/dam/jcr:e512ae31-a3ed-4b65-b589-870383d794b0/abschlussarbeiten-bsc-informatik.pdf
 
-#import "@preview/isc-hei-exec-summary:0.7.0" : *
+#import "@preview/isc-hei-exec-summary:0.7.1" : *
 
 // Must be <= 365 characters long.
 #let summary = "DataFlowX is a scalable data engineering platform for real-time analytics on large, heterogeneous datasets. DataFlowX automates data ingestion, transformation, and validation using distributed processing and intelligent scheduling. The system ensures data quality, accelerates insights, and supports seamless integration with modern business intelligence tools."
@@ -99,7 +99,7 @@ DataFlowX delivers significant benefits by enabling organizations to harness rea
   authors: "Stormy Peters", 
   student-picture: image("figs/random_image.png"), // [Optional], put none if not used
   permanent-email: "stormy.peters@example.com", // [Optional], put none if not used. Prefer a long term viable address!
-  video-url: "https://isc.hevs.ch", // A link to the video of you project, or none
+  video-url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // A link to the video of you project, or none
 
   summary: summary, // Not to be changed
   content: content, // Not to be changed
