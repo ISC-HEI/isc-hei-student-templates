@@ -14,7 +14,10 @@ example
 scripts
 templates
 Justfile
-**/*.pdf
+*.code-workspace
+*.ttf
+*.otf
+*.pdf
 
 # PDF manuals should be included so that they can be linked, but not their sources
 docs/*

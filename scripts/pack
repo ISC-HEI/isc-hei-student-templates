@@ -83,7 +83,7 @@ done
 cp -a "$ROOT/templates/$TEMPLATE/README.md" "$TMP"
 cp -a "$ROOT/templates/$TEMPLATE/typst.toml" "$TMP"
 
-cp $ROOT/src/*.pdf "$ROOT/examples/"
+cp $ROOT/src/*.pdf "$ROOT/examples/" 2>/dev/null || true
 
 # Verbose rm: print each file/dir actually removed
 vrm() { for f in "$@"; do [[ -e "$f" ]] && echo "  Removing ${f#$TMP/}"; done; rm -rf "$@"; }
@@ -203,7 +203,6 @@ if [[ "$TEMPLATE" == "tb-assignment" ]]; then
 	vrm "$TMP/exec_summary.png"
 	vrm "$TMP/document_thumb.png"
 fi
-
 
 TARGET="${TARGET:?}/${PKG_PREFIX:?}/${VERSION:?}"
 echo "Packaged to: $TARGET"
