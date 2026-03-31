@@ -24,6 +24,16 @@ In the `Typst` web application, start with the `isc-hei-*` document and voilà !
 
 ## Using one of templates in your shell
 
+The package provides the following templates : 
+
+```text
+@preview/isc-hei-document
+@preview/isc-hei-report
+@preview/isc-hei-bthesis
+@preview/isc-hei-exec-summary
+@preview/isc-hei-tb-assignment
+```
+
 First start by installing `Typst` on your machine. You can then initialize the project with the command :
 
 ```bash
